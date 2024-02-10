@@ -1,0 +1,9 @@
+<nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
+    <div class="container d-flex flex-wrap flex-row justify-content-between">
+        <a class="navbar-brand" href="/">{{ title }} - {{ subTitle }}</a>
+        {% if current_user.is_authenticated %} <!-- ログイン中の場合のみ表示 -->
+        <span class="mx-1">ID: {{ current_user.get_id() }}</span>
+        <button class="btn btn-outline-secondary" type="button" onclick="location.href='/logout'">ログアウト</button>
+        {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,22 @@
+<!-- SubTitleの設定 -->
+{% set subTitle = '学校一覧' %}
+
+<!-- layoutの決定 -->
+{% extends 'layout.html' %}
+
+<!-- コンテンツ -->
+{% block contents %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"></link>
+<div class="container">
+    {{ super() }}
+    <!-- 学校一覧から選択 -->
+    <div class="container">
+        <span>学校を選択してください</span>
+        <div>
+            {% for school in schools %}
+            <button onclick="location.href='/{{ school.name }}/student_list'">{{ school.name }}</button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
