@@ -1,24 +1,20 @@
-<!-- SubTitleの設定 -->
-{% set subTitle = 'ログイン' %}
-
-<!-- layoutの決定 -->
-{% extends 'layout.html' %}
-
-<!-- コンテンツ -->
-{% block contents %}
-<div class="container">
-    {{ super() }}
-    <form id="login" method="POST">
-        <span class="text-center">IDとパスワードを入力してください</span>
-        <div>
-            <label for="user_id">ID</label>
-            <input type="text" id="user_id" name="user_id" placeholder="ID">
-        </div>
-        <div class="form-group">
-            <label for="password">パスワード</label>
-            <input type="password" id="password" name="password" placeholder="パスワード">
-        </div>
-        <input type="submit" value="ログイン">
-    </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生徒管理ログインページ</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>生徒管理ログインページ</h1>
+        <h6>IDとパスワードを入力して下さい</h6>
+        <form>
+            <input type="text" placeholder="ユーザー名">
+            <input type="password" placeholder="パスワード">
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+</body>
+</html>
