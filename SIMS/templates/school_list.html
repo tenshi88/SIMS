@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学校一覧</title>
-    <link rel="stylesheet" href="../static/style2.css">
-</head>
-<body>
-    <div class="container">
-        <h1>学校一覧</h1>
-        <ul>
-            <li><a href="https://example.com/a">本町校</a></li>
-            <li><a href="https://example.com/b">天満橋校</a></li>
-            <li><a href="https://example.com/c">三宮校</a></li>
-        </ul>
-    </div>
-</body>
-</html>
+<!-- SubTitleの設定 -->
+{% set subTitle = '学校一覧' %}
+
+<!-- layoutの決定 -->
+{% extends 'layout.html' %}
+
+<!-- コンテンツ -->
+{% block contents %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/school_list.css') }}"></link>
+<div class="container">
+    {{ super() }}
+    <h1>学校一覧</h1>
+    <ul>
+        {% for school in schools %}
+        <li><a href="location.href='/{{ school.name }}/student_list'">{{ school.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
