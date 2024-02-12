@@ -1,3 +1,4 @@
+import re
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
@@ -45,8 +46,8 @@ class Student(db.Model):
     # emailのバリデーション
     @validates('email', 'gmail')
     def validate_email(self, key, value):
-        is_valis_email = value.count('@') == 1 and value.count('.') >= 1
-        if not is_valis_email:
+        is_valid_email = re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", value)
+        if not is_valid_email:
             raise ValueError(f'errors.invalid_{key} メールアドレスが不正です。')
         return value
 
@@ -91,7 +92,7 @@ class Class(db.Model):
         return value
 
 # ユーザーのテーブル
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String(64))
@@ -111,6 +112,3 @@ class User(UserMixin, db.Model):
         if value is None:
             raise ValueError(f'errors.required {key}は必須です。')
         return value
-    
-    def __init__(self, user_id):
-        self.id = user_id

@@ -8,9 +8,8 @@
 {% block contents %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"></link>
 <div class="container">
-    {{ super() }}
-    <h1>生徒管理ログインページ</h1>
-    <h6>IDとパスワードを入力して下さい</h6>
+    <h2 class="fw-bold">生徒管理ログインページ</h2>
+    <p class="fs-6">IDとパスワードを入力して下さい</p>
     <form method="POST">
         <input type="text" name="user_id" placeholder="ユーザー名">
         <input type="password" name="password" placeholder="パスワード">

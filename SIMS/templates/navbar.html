@@ -1,9 +1,72 @@
-<nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
-    <div class="container d-flex flex-wrap flex-row justify-content-between">
-        <a class="navbar-brand" href="/">{{ title }} - {{ subTitle }}</a>
-        {% if current_user.is_authenticated %} <!-- ログイン中の場合のみ表示 -->
-        <span class="mx-1">ID: {{ current_user.get_id() }}</span>
-        <button class="btn btn-outline-secondary" type="button" onclick="location.href='/logout'">ログアウト</button>
-        {% endif %}
-    </div>
-</nav>
+<header class="container-fluid sticky-top border-bottom border-body bg-body-tertiary">
+    <nav class="container-sm navbar navbar-expand-sm mx-auto flex-row justify-content-center" >
+        <div>
+            <a class="navbar-brand me-1" href="/">{{ title }}</a>
+            <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div>
+            <div class="collapse navbar-collapse row g-1" id="navbarContent">
+                {% if school %} <!-- 学校選択時 -->
+                <div class="col-auto">
+                    <span class="dropdown">
+                        <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            {{ school }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for s in schools %}
+                            {% set url = '/{}/student_list'.format(s.name) %}
+                            <li><a class="dropdown-item" href="{{ url_for('student_list.student_list', school=s.name) }}">{{s.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </span>
+                </div>
+                {% endif %}
+                {% if current_user.is_authenticated %} <!-- ログイン中の場合のみ表示 -->
+                <div class="col-auto">
+                    <!-- <span class="d-inline-block text-truncate align-middle" style="max-width: 100px;">ID: {{ current_user.get_id() }}00000000000000000000</span> -->
+                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/admin_panel'">管理設定</button>
+                    <button class="btn btn-outline-secondary" type="button" onclick="location.href='/logout'">ログアウト</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% if studentSearch %} <!-- 生徒検索メニュー有効時 -->
+    <nav class="container-sm navbar navbar-expand-md mx-auto flex-row justify-content-center" style="max-width: 960px;">
+        <div>
+            <div class="collapse navbar-collapse row g-1" id="studentSearch">
+                <div class="col-auto">
+                    <input class="form-control" placeholder="検索文字列">
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" id="searchType">
+                        <option value="name">名前</option>
+                        <option value="class">クラス</option>
+                        <option value="age">年齢</option>
+                        <option value="all">ALL</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-success" type="submit">検索</button>
+                </div>
+                <div class="col-auto">
+                    <input class="form-check-input" type="checkbox" value="" id="allSchoolSearch">
+                    <label class="form-check-label" for="allSchoolSearch">全校検索</label>
+                    <input class="form-check-input" type="checkbox" value="" id="graduated">
+                    <label class="form-check-label" for="graduated">卒業生</label>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#studentSearch">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="ms-auto">
+            <button class="btn btn-outline-primary" type="button">新規登録</button>
+        </div>
+    </nav>
+    {% endif %}
+</header>

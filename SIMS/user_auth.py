@@ -15,11 +15,11 @@ class UserAuth:
         return False
 
     def login_user(user_id):
-        login_user(User(user_id))
+        login_user(User.query.filter_by(user_id=user_id).first())
     
     def logout_user():
         logout_user()
         
     @login_manager.user_loader
     def load_user(user_id):
-        return User(user_id)
+        return User.query.get(user_id)
