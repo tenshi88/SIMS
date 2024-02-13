@@ -2,23 +2,29 @@
 // 生徒情報の登録、削除、表示、編集を行うAPI
 // 追加
 ;(async () => {
-    const body = new URLSearchParams()
-    body.append('action', 'register')
-    body.append('name', 'あああ')
-    body.append('age', 20)
-    body.append('class_name', 'ウェブプログラマー養成コース')
-    body.append('gender', 1)
-    body.append('birthday', '2000-01-01')
-    body.append('address', '大阪府大阪市中央区x-xx-xx')
-    body.append('phone', '123-456-7890')
-    body.append('email', 'aaa@gmail.com')
-    body.append('gmail', 'bbb@gmail.com')
-    body.append('school', '天満橋校')
-    body.append('note', '備考')
-
-    const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
-    const res = await req.json()
-    console.log(res)
+    const nameList = ['あああ', 'いいい', 'ううう', 'えええ', 'おおお']
+    const classList = ['Aコース', 'Bコース', 'Cコース', 'Dコース', 'Eコース', 'Fコース']
+    let body
+    for (const name of nameList) {
+        for (const cls of classList) {
+            body = new URLSearchParams()
+            body.append('action', 'register')
+            body.append('name', name)
+            body.append('age', 20)
+            body.append('class_name', cls)
+            body.append('gender', 1)
+            body.append('birthday', '2000-01-01')
+            body.append('address', '大阪府大阪市中央区x-xx-xx')
+            body.append('phone', '123-456-7890')
+            body.append('email', 'aaa@gmail.com')
+            body.append('gmail', 'bbb@gmail.com')
+            body.append('school', '天満橋校')
+            body.append('note', '備考')
+            const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
+            const res = await req.json()
+            console.log(res)
+        }
+    }
 })()
 
 // 削除

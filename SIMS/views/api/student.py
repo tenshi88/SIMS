@@ -79,7 +79,7 @@ def api_student():
                 if id and school:
                     students = Student.query.filter(Student.id == id, Student.school == school).all()
                 elif school:
-                    students = Student.query.filter(Student.id == id).all()
+                    students = Student.query.filter(Student.school == school).all()
                 students = [student.getData() for student in students]
                 return jsonify({ 'error': '', 'status': 'success', 'data': students })
             # 不正なアクション

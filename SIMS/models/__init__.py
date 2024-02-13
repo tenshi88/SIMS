@@ -22,6 +22,8 @@ class Student(db.Model):
     # データを辞書型で取得する
     def getData(self):
         birthday = self.birthday.strftime('%Y-%m-%d')
+        # 1:男、2:女、3:その他
+        int(self.gender)
         return {
             'id': int(self.id),
             'name': str(self.name),
@@ -112,3 +114,20 @@ class User(db.Model, UserMixin):
         if value is None:
             raise ValueError(f'errors.required {key}は必須です。')
         return value
+
+# 生徒一覧をクラスごとに分けたリストを取得する
+def get_divide_students_by_class(school):
+    if school is None:
+        students = Student.query.all()
+    else:
+        students = Student.query.filter_by(school=school).all()
+    students = [student.getData() for student in students]
+    classes = Class.query.all()
+    classes = [cls.getData() for cls in classes]
+    students_by_class = []
+    for cls in classes:
+        students_by_class.append({
+            'class_name': cls['name'],
+            'students': [student for student in students if student['class_name'] == cls['name']]
+        })
+    return students_by_class

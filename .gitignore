@@ -1,5 +1,3 @@
 /venv/*
-/SIMS/__pycache__/*
-/SIMS/models/__pycache__/*
-/SIMS/views/__pycache__/*
-/SIMS/views/api/__pycache__/*
+**__pycache__
+/SIMS/models/sims.db

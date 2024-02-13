@@ -27,18 +27,21 @@ class SubModal extends Modal {
 
 // ユーザー編集/追加/削除モーダルの表示
 function editUser(id, user_id, password) {
-    const label = 'ユーザー' + (id ? '編集' : '追加')
+    const label = 'ユーザーを' + (id ? '編集' : '追加')
     let footer = ''
-    if (label === 'ユーザー編集') {
+    // ユーザーを編集する場合、更新ボタンと削除ボタンを表示する
+    if (label === 'ユーザーを編集') {
         footer = `
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
+    // ユーザーを追加する場合、追加ボタンのみを表示する
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
         `
     }
+    // モーダルのbody
     const body = `
         <form autocomplete="off">
             <div>
@@ -57,18 +60,19 @@ function editUser(id, user_id, password) {
             </div>
         </form>
     `
+    // モーダルを表示
     Modal.show(label, body, footer)
 
     // 更新/追加ボタンが押されたときの確認処理
     document.querySelector('[name=submit-api]').addEventListener('click', async (event) => {
         const path = 'user'
         const action = event.target.id
-        onSubmit(event, id, label, path, action)
+        updateConfirm(event, id, label, path, action)
     })
 
     // 削除ボタンが押されたときの確認処理
     Modal.footer.querySelector('#delete-confirm')?.addEventListener('click', (_) => {
-        const label = 'ユーザー削除'
+        const label = 'ユーザーを削除'
         const path = 'user'
         deleteConfirm(id, label, path)
     })
@@ -80,18 +84,21 @@ function editUser(id, user_id, password) {
 
 // 学校編集/追加/削除モーダルの表示
 function editSchool(id, name) {
-    const label = '学校' + (id ? '編集' : '追加')
+    const label = '学校を' + (id ? '編集' : '追加')
     let footer = ''
-    if (label === '学校編集') {
+    // 学校を編集する場合、更新ボタンと削除ボタンを表示する 
+    if (label === '学校を編集') {
         footer = `
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
+    // 学校を追加する場合、追加ボタンのみを表示する
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
         `
     }
+    // モーダルのbody
     const body = `
         <form autocomplete="off">
             <div>
@@ -101,25 +108,19 @@ function editSchool(id, name) {
             </div>
         </form>
     `
+    // モーダルを表示
     Modal.show(label, body, footer)
 
-    // 更新/追加ボタンが押されたときの処理
+    // 更新/追加ボタンが押されたときの確認処理
     document.querySelector('[name=submit-api]').addEventListener('click', async (event) => {
-        const form = event.target.closest('.modal-content').querySelector('form')
-        const isVarid = form.checkValidity()
-        // バリデーションチェックでエラーがあった場合、イベントを取り消す
-        if (!isVarid) {
-            event.preventDefault()
-            return
-        }
-        // fetchでPOSTリクエストを送信
+        const path = 'school'
         const action = event.target.id
-        await fetchPost(event, 'school', action, id)
+        updateConfirm(event, id, label, path, action)
     })
 
     // 削除ボタンが押されたときの確認処理
     Modal.footer.querySelector('#delete-confirm')?.addEventListener('click', (_) => {
-        const label = '学校削除'
+        const label = '学校を削除'
         const path = 'school'
         deleteConfirm(id, label, path)
     })
@@ -130,18 +131,21 @@ function editSchool(id, name) {
 
 // クラス編集/追加/削除モーダルの表示
 function editClass(id, name) {
-    const label = 'クラス' + (id ? '編集' : '追加')
+    const label = 'クラスを' + (id ? '編集' : '追加')
     let footer = ''
-    if (label === 'クラス編集') {
+    // クラスを編集する場合、更新ボタンと削除ボタンを表示する
+    if (label === 'クラスを編集') {
         footer = `
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
+    // クラスを追加する場合、追加ボタンのみを表示する   
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
         `
     }
+    // モーダルのbody
     const body = `
         <form autocomplete="off">
             <div>
@@ -151,25 +155,19 @@ function editClass(id, name) {
             </div>
         </form>
     `
+    // モーダルを表示
     Modal.show(label, body, footer)
 
-    // 更新/追加ボタンが押されたときの処理
+    // 更新/追加ボタンが押されたときの確認処理
     document.querySelector('[name=submit-api]').addEventListener('click', async (event) => {
-        const form = event.target.closest('.modal-content').querySelector('form')
-        const isVarid = form.checkValidity()
-        // バリデーションチェックでエラーがあった場合、イベントを取り消す
-        if (!isVarid) {
-            event.preventDefault()
-            return
-        }
-        // fetchでPOSTリクエストを送信
+        const path = 'class'
         const action = event.target.id
-        await fetchPost(event, 'class', action, id)
+        updateConfirm(event, id, label, path, action)
     })
 
     // 削除ボタンが押されたときの確認処理
     Modal.footer.querySelector('#delete-confirm')?.addEventListener('click', (_) => {
-        const label = 'クラス削除'
+        const label = 'クラスを削除'
         const path = 'class'
         deleteConfirm(id, label, path)
     })
@@ -180,11 +178,12 @@ function editClass(id, name) {
 
 // ページの再読み込み
 function reloadPage() {
+    // テーブルのtbody要素を取得
     const userTableBody = document.querySelector('#user-table tbody')
     const schoolTableBody = document.querySelector('#school-table tbody')
     const classTableBody = document.querySelector('#class-table tbody')
 
-    // テーブルの中身を再読み込み
+    // テーブルの中身を再描画
     userTableBody.innerHTML = users.reduce((html, user) => {
         return `${html}
             <tr>
@@ -224,7 +223,9 @@ function reloadPage() {
 
 // バリデーションチェック
 function validation(event) {
+    // 入力された要素
     const element = event.target
+    // 入力された要素の次の要素(.invalid-feedback)
     const feedback = element.nextElementSibling
     // 入力が不正な場合、エラーメッセージを表示する
     if (!element.checkValidity()) {
@@ -240,48 +241,28 @@ function validation(event) {
     feedback.textContent = ''
 }
 
-// 更新/追加ボタンが押されたときの処理
-function onSubmit(event, id, label, path, action) {
-    const modalContent = event.target.closest('.modal-content')
-    const form = modalContent.querySelector('form')
-    modalContent.querySelector('form').reportValidity()
-    const isVarid = form.checkValidity()
-    // バリデーションチェックでエラーがあった場合、イベントを取り消す
-    if (!isVarid) {
-        event.preventDefault()
-        return
-    }
-    // fetchでPOSTリクエストを送信
-    fetchPost(event, path, action, id)
-}
-
-// 削除ボタンが押されたときの確認処理
-function deleteConfirm(id, label, path) {
-    const body = `
-        <p>本当に削除しますか？</p>
-    `
+// 共通のアクションハンドラ
+async function handleAction(id, label, path, action, successMessage, event = null) {
+    const body = `<p>本当に${label}しますか？</p>`
     const footer = `
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-        <button type="button" name="submit-api" id="delete-exec" class="btn btn-danger">削除</button>
+        <button type="button" name="submit-api" id="exec" class="btn btn-danger">${label}</button>
     `
+    // サブモーダルを表示
     SubModal.show(label, body, footer)
-
-    // 本当に削除するときの処理
-    document.querySelector('#delete-exec').addEventListener('click', async (_) => {
+    // 更新/追加/削除ボタンが押されたときの処理
+    document.querySelector('#exec').addEventListener('click', async (_) => {
+        // モーダルを非表示
         Modal.hide()
         try {
-            await fetchPostAndHandleError(null, path, 'delete', id)
-            SubModal.body.innerHTML = '削除完了'
+            // リクエストを送信し、エラーがなければ成功メッセージを表示する
+            await fetchPostAndHandleError(event, path, action, id)
+            SubModal.body.innerHTML = successMessage
             SubModal.footer.innerHTML = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>'
-            let json = await fetchPostAndHandleError(null, path, 'get')
-            if (path === 'user') {
-                users = json.data
-            } else if (path === 'school') {
-                schools = json.data
-            } else if (path === 'class') {
-                classes = json.data
-            }
+            // データを更新し、ページを再読み込みする
+            await updateData(path)
             reloadPage()
+            // 2秒後にサブモーダルを非表示にする
             setTimeout(() => SubModal.hide(), 2000)
         } catch (error) {
             SubModal.label.textContent = 'エラーが発生しました'
@@ -290,11 +271,50 @@ function deleteConfirm(id, label, path) {
     })
 }
 
+// 更新/追加ボタンが押されたときの処理
+function updateConfirm(event, id, label, path, action) {
+    // モーダルの中のフォーム要素
+    const modalContent = event.target.closest('.modal-content')
+    const form = modalContent.querySelector('form')
+    // バリデーションチェック
+    const isValid = form.checkValidity()
+    if (!isValid) {
+        // バリデーションエラーがある場合、イベントをキャンセルする
+        event.preventDefault()
+        return
+    }
+    // バリデーションエラーがない場合、アクションハンドラを呼び出す
+    handleAction(id, label, path, action, '操作を完了しました', event)
+}
+
+// 削除ボタンが押されたときの確認処理
+function deleteConfirm(id, label, path) {
+    // 削除ボタンが押されたときのアクションハンドラを呼び出す
+    handleAction(id, label, path, 'delete', '削除完了しました')
+}
+
+// データの更新
+async function updateData(path) {
+    // ユーザー/学校/クラスのデータを取得
+    let json = await fetchPostAndHandleError(null, path, 'get')
+    // データを更新
+    if (path === 'user') {
+        users = json.data
+    } else if (path === 'school') {
+        schools = json.data
+    } else if (path === 'class') {
+        classes = json.data
+    }
+}
+
 // fetchでPOSTリクエストを送信し、エラーがあった場合はエラーメッセージを表示する
 async function fetchPostAndHandleError(event, path, action, id) {
+    // サーバーからのレスポンスを取得
     let json = await fetchPost(event, path, action, id)
+    // エラーメッセージがなければレスポンスを返す
     if (json.error === '') {
         return json
+    // エラーメッセージがあればそれを投げる
     } else {
         throw new Error(json.error)
     }
@@ -302,7 +322,9 @@ async function fetchPostAndHandleError(event, path, action, id) {
 
 // fetchでPOSTリクエストを送信
 async function fetchPost(event, path, action, id) {
+    // リクエストのbodyを作成
     const body = new URLSearchParams()
+    // フォームの中身をbodyに追加
     if (event) {
         const form = event.target.closest('.modal-content').querySelector('form')
         for (const input of form.querySelectorAll('input')) {
@@ -311,7 +333,9 @@ async function fetchPost(event, path, action, id) {
     }
     body.append('action', action)
     body.append('id', id)
+    // リクエストを送信
     const url = `http://localhost/api/${path}`
     const req = await fetch(url, { method: 'POST', body: body })
+    // サーバーからのレスポンスをjson形式で返す
     return req.json()
 }
