@@ -22,7 +22,7 @@ def api_school():
                 db.session.delete(school)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # 学校更新
             case 'update':
                 id = request.form.get('id')
@@ -30,7 +30,7 @@ def api_school():
                 school.name = request.form.get('name')
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # 学校登録
             case 'register':
                 school = School(
@@ -39,13 +39,13 @@ def api_school():
                 db.session.add(school)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # 学校全取得
             case 'get':
                 schools = School.query.all()
                 schools = [school.getData() for school in schools]
-                return jsonify({ 'error': '', 'result': 'Success', 'data': schools })
+                return jsonify({ 'error': '', 'status': 'success', 'data': schools })
             case _:
-                return jsonify({ 'error': 'Invalid action', 'result': 'Failure' })
+                return jsonify({ 'error': 'Invalid action', 'status': 'failure' })
     except Exception as e:
-        return jsonify({ 'error': str(e), 'result': 'Failure' })
+        return jsonify({ 'error': str(e), 'status': 'failure' })

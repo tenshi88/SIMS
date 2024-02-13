@@ -22,7 +22,7 @@ def api_user():
                 db.session.delete(user)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ更新
             case 'update':
                 id = request.form.get('id')
@@ -31,7 +31,7 @@ def api_user():
                 user.password = request.form.get('password')
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ登録
             case 'register':
                 user = User(
@@ -41,13 +41,13 @@ def api_user():
                 db.session.add(user)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ全取得
             case 'get':
                 users = User.query.all()
                 users = [user.getData() for user in users]
-                return jsonify({ 'error': '', 'result': 'Success', 'data': users })
+                return jsonify({ 'error': '', 'status': 'success', 'data': users })
             case _:
-                return jsonify({ 'error': 'Invalid action', 'result': 'Failure' })
+                return jsonify({ 'error': 'Invalid action', 'status': 'failure' })
     except Exception as e:
-        return jsonify({ 'error': str(e), 'result': 'Failure' })
+        return jsonify({ 'error': str(e), 'status': 'failure' })

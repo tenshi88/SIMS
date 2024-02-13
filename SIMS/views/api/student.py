@@ -23,7 +23,7 @@ def api_student():
                 db.session.delete(student)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # 生徒更新
             case 'update':
                 id = request.form.get('id')
@@ -42,7 +42,7 @@ def api_student():
                 db.session.add(student)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # 生徒登録
             case 'register':
                 name = request.form.get('name')
@@ -71,7 +71,7 @@ def api_student():
                 db.session.add(student)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # IDと学校名で取得
             case 'get':
                 school = request.form.get('school')
@@ -81,9 +81,9 @@ def api_student():
                 elif school:
                     students = Student.query.filter(Student.id == id).all()
                 students = [student.getData() for student in students]
-                return jsonify({ 'error': '', 'result': 'Success', 'data': students })
+                return jsonify({ 'error': '', 'status': 'success', 'data': students })
             # 不正なアクション
             case _:
-                return jsonify({ 'error': 'Invalid action', 'result': 'Failure' })
+                return jsonify({ 'error': 'Invalid action', 'status': 'failure' })
     except Exception as e:
-        return jsonify({ 'error': str(e), 'result': 'Failure' })
+        return jsonify({ 'error': str(e), 'status': 'failure' })

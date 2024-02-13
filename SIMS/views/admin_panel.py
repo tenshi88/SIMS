@@ -16,7 +16,7 @@ def admin_panel():
         schools = School.query.all()
         schools = [school.getData() for school in schools]
         classes = Class.query.all()
-        classes = [class_.getData() for class_ in classes]
+        classes = [cls.getData() for cls in classes]
         users = User.query.all()
         users = [user.getData() for user in users]
         return render_template('admin_panel.html', schools=schools, classes=classes, users=users)

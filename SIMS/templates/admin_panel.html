@@ -19,23 +19,34 @@
         </div>
     </div>
     <div class="row g-1">
-        <table class="table table-striped table-hover mb-0">
-            <tr>
-                <th>#</th>
-                <th>ユーザーID</th>
-                <th>操作</th>
-            </tr>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.user_id }}</td>
-                <td>
-                    <button class="btn btn-primary" name="edit-user" data-id="{{ user.id }}" data-user-id="{{ user.user_id }}" data-password="{{ user.password }}">編集</button>
-                </td>
-            </tr>
+        <table id="user-table" class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ユーザーID</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.user_id }}</td>
+                    <td>
+                        {% set onclick = 'editUser(' ~ user.id ~ ',"' ~ user.user_id ~ '","' ~ user.password ~ '")' %}
+                        <button class="btn btn-primary" name="edit-user" onclick="{{ onclick }}">編集</button>
+                    </td>
+                </tr>
+            </tbody>
             {% endfor %}
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <button name="add-user" class="btn btn-primary" onclick="editUser()">ユーザー追加</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
-        <button name="add-user" class="col-auto btn btn-primary ml-auto">ユーザー追加</button>
     </div>
 
     <!-- 学校一覧 -->
@@ -45,23 +56,34 @@
         </div>
     </div>
     <div class="row g-1">
-        <table class="table table-striped table-hover mb-0">
-            <tr>
-                <th>#</th>
-                <th>学校名</th>
-                <th>操作</th>
-            </tr>
-            {% for school in schools %}
-            <tr>
-                <td>{{ school.id }}</td>
-                <td>{{ school.name }}</td>
-                <td>
-                    <button class="btn btn-primary" name="edit-school" data-id="{{ school.id }}" data-school-name="{{ school.name }}">編集</button>
-                </td>
-            </tr>
-            {% endfor %}
+        <table id="school-table" class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>学校名</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for school in schools %}
+                <tr>
+                    <td>{{ school.id }}</td>
+                    <td>{{ school.name }}</td>
+                    <td>
+                        {% set onclick = 'editSchool(' ~ school.id ~ ',"' ~ school.name ~ '")' %}
+                        <button class="btn btn-primary" name="edit-school" onclick="{{ onclick }}">編集</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <button name="add-school" class="btn btn-primary" onclick="editSchool()">学校追加</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
-        <button name="add-school" class="col-auto btn btn-primary">学校追加</button>
     </div>
 
     <!-- クラス一覧 -->
@@ -71,31 +93,56 @@
         </div>
     </div>
     <div class="row g-1">
-        <table class="table table-striped table-hover mb-0">
-            <tr>
-                <th>#</th>
-                <th>クラス名</th>
-                <th>操作</th>
-            </tr>
-            {% for class_ in classes %}
-            <tr>
-                <td>{{ class_.id }}</td>
-                <td>{{ class_.name }}</td>
-                <td>
-                    <button class="btn btn-primary" name="edit-class" data-id="{{ class_.id }}" data-class-name="{{ class_.name }}">編集</button>
-                </td>
-            </tr>
-            {% endfor %}
+        <table id="class-table" class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>クラス名</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cls in classes %}
+                <tr>
+                    <td>{{ cls.id }}</td>
+                    <td>{{ cls.name }}</td>
+                    <td>
+                        {% set onclick = 'editClass(' ~ cls.id ~ ',"' ~ cls.name ~ '")' %}
+                        <button class="btn btn-primary" name="edit-class" onclick="{{ onclick }}">編集</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <button name="add-class" class="btn btn-primary" onclick="editClass()">クラス追加</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
-        <button name="add-class" class="col-auto btn btn-primary">クラス追加</button>
     </div>
     
     <!-- モーダル -->
-    <div class="modal fade" id="modal-main" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-main" tabindex="-1" aria-labelledby="modal-label-main" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalLabel"></h1>
+                    <h1 class="modal-title fs-5" id="modal-label-main"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- サブモーダル -->
+    <div class="modal fade" id="modal-sub" tabindex="-1" aria-labelledby="modal-label-sub" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modal-label-sub"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body"></div>

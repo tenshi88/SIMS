@@ -18,34 +18,34 @@ def api_class():
             # クラス削除
             case 'delete':
                 id = request.form.get('id')
-                class_ = Class.query.filter(Class.id == id).first()
-                db.session.delete(class_)
+                cls = Class.query.filter(Class.id == id).first()
+                db.session.delete(cls)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # クラス更新
             case 'update':
                 id = request.form.get('id')
-                class_ = Class.query.filter(Class.id == id).first()
-                class_.name = request.form.get('name')
+                cls = Class.query.filter(Class.id == id).first()
+                cls.name = request.form.get('name')
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # クラス登録
             case 'register':
-                class_ = Class(
+                cls = Class(
                     name=request.form.get('name')
                 )
-                db.session.add(class_)
+                db.session.add(cls)
                 db.session.commit()
                 db.session.close()
-                return jsonify({ 'error': '', 'result': 'Success' })
+                return jsonify({ 'error': '', 'status': 'success' })
             # クラス全取得
             case 'get':
                 classes = Class.query.all()
-                classes = [class_.getData() for class_ in classes]
-                return jsonify({ 'error': '', 'result': 'Success', 'data': classes })   
+                classes = [cls.getData() for cls in classes]
+                return jsonify({ 'error': '', 'status': 'success', 'data': classes })   
             case _:
-                return jsonify({ 'error': 'Invalid action', 'result': 'Failure' })
+                return jsonify({ 'error': 'Invalid action', 'status': 'failure' })
     except Exception as e:
-        return jsonify({ 'error': str(e), 'result': 'Failure' })
+        return jsonify({ 'error': str(e), 'status': 'failure' })
