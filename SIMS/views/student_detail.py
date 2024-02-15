@@ -1,5 +1,5 @@
 from os import name
-from flask import Blueprint,app, render_template
+from flask import Blueprint,app, render_template, request
 from flask_login import login_required
 from SIMS import app
 from SIMS.models import Student
@@ -11,11 +11,19 @@ bp = Blueprint('student_detail', __name__)
 @bp.route('/本町校/student_detail/<int:id>',methods=['GET', 'POST'])
 # @login_required
 def student_detail(id):
-    
     student = Student.get_one(id=id)
-    students = [student.getData() for student in students]
     return render_template('student_detail.html',\
-        student = student
+        id = student['id'],\
+        name = student['name'],\
+        name_kana = student['name_kana'],\
+        class_name = student['class_name'],\
+        gender = student['gender'],\
+        birthday = student['birthday'],\
+        address = student['address'],\
+        phone = student['phone'],\
+        email = student['email'],\
+        gmail = student['gmail'],\
+        note = student['note']
     )   
 
 
