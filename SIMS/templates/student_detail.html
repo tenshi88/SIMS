@@ -12,6 +12,11 @@
 <body>
     <header>
         <h1>生徒詳細画面</h1>
+        <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-primary" type="button">ログイン</button>
+            <button class="btn btn-primary" type="button">ログアウト</button>
+          </div>
+        <br><br>
         <p>次へ</p>
         <p>前へ</p>
     </header>
@@ -25,6 +30,11 @@
             <tr>
                 <td>
                     生徒名：{{name}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    フリガナ：{{name_kana}}
                 </td>
             </tr>
             <tr>
@@ -70,8 +80,12 @@
         </table>
     </main>
     <footer>
-        <a href="../templates/admin_panel.html"><p>編集</p></a>
-        <a href="../templates/student_list.html"><p>生徒一覧へ</p></a>
+        <a href="{{ url_for('student_edit') }}">
+            <p>編集</p>
+        </a>
+        <a href="{{ url_for('student_list') }}">
+            <p>生徒一覧へ</p>
+        </a>
     </footer>
 
     <script src="../static/js/student_details.js"></script>
