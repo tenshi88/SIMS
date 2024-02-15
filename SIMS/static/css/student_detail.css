@@ -1,5 +1,5 @@
 h1 {
-    color: red;
+    color: rgb(4, 0, 255);
     text-align: left;
 }
 body {
@@ -9,4 +9,11 @@ body {
 }
 p{
     text-align: right;
+}
+
+div{
+    text-align: center;
+    float: right;
+    padding-left: 20px;
+    padding-right: 5px;
 }
