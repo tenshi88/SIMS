@@ -7,8 +7,7 @@ login_manager.init_app(app)
 
 class UserAuth:
     def is_valid_user(user_id, password):
-        users = User.query.all()
-        users = [user.getData() for user in users]
+        users = User.get_all()
         for user in users:
             if user['user_id'] == user_id and user['password'] == password:
                 return True
