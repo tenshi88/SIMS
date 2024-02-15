@@ -95,19 +95,23 @@ class Student(BaseMixin):
             raise ValueError(f'errors.invalid_{key} 性別が不正です。')
         return value
 
-    # 生徒一覧をクラスごとに分けたリストを取得する
+    # 生徒一覧を学校、クラスごとに分けたリストを取得する
     def get_divide_by_class(school):
         if school is None:
+            schools = School.get_all()
             students = Student.get_all()
         else:
+            schools = [school]
             students = Student.get_all(school=school)
         classes = Class.get_all()
         students_by_class = []
-        for cls in classes:
-            students_by_class.append({
-                'class_name': cls['name'],
-                'students': [student for student in students if student['class_name'] == cls['name']]
-            })
+        for scl in schools:
+            for cls in classes:
+                students_by_class.append({
+                    'school': scl,
+                    'class_name': cls['name'],
+                    'students': [student for student in students if student['class_name'] == cls['name']]
+                })
         return students_by_class
 
     # 生年月日から年齢を取得する
