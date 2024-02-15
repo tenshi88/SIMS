@@ -1,3 +1,4 @@
+import datetime
 import re
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
@@ -38,12 +39,16 @@ class BaseMixin(db.Model):
             all_data = cls.query.all()
         else:
             all_data = cls.query.filter_by(**kwargs).all()
+        if all_data is None:
+            return None
         return [data.to_dict() for data in all_data]
 
     # 一つのデータを取得する
     @classmethod
     def get_one(cls, **kwargs):
         data = cls.query.filter_by(**kwargs).first()
+        if data is None:
+            return None
         return data.to_dict()
 
     # データを辞書型に変換する
@@ -90,25 +95,35 @@ class Student(BaseMixin):
             raise ValueError(f'errors.invalid_{key} 性別が不正です。')
         return value
 
-    # 生徒一覧をクラスごとに分けたリストを取得する
+    # 生徒一覧を学校、クラスごとに分けたリストを取得する
     def get_divide_by_class(school):
         if school is None:
+            schools = School.get_all()
             students = Student.get_all()
         else:
+            schools = [school]
             students = Student.get_all(school=school)
         classes = Class.get_all()
         students_by_class = []
-        for cls in classes:
-            students_by_class.append({
-                'class_name': cls['name'],
-                'students': [student for student in students if student['class_name'] == cls['name']]
-            })
+        for scl in schools:
+            for cls in classes:
+                students_by_class.append({
+                    'school': scl,
+                    'class_name': cls['name'],
+                    'students': [student for student in students if student['class_name'] == cls['name']]
+                })
         return students_by_class
+
+    # 生年月日から年齢を取得する
+    def get_age(self, birthday):
+        today = datetime.date.today()
+        return today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
 
     # データを辞書型に変換する
     def to_dict(self):
         dic = super().to_dict()
-        dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d')
+        #dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d')
+        dic['age'] = self.get_age(dic['birthday'])
         # 1:男、2:女、3:その他 に変換
         match (dic['gender']):
             case 1:

@@ -3,13 +3,15 @@
 // 追加
 ;(async () => {
     const nameList = ['あああ', 'いいい', 'ううう', 'えええ', 'おおお']
+    const nameKanaList = ['アアア', 'イイイ', 'ウウウ', 'エエエ', 'オオオ']
     const classList = ['Aコース', 'Bコース', 'Cコース', 'Dコース', 'Eコース', 'Fコース']
     let body
-    for (const name of nameList) {
+    for (let i = 0; i < nameList.length; i++) { 
         for (const cls of classList) {
             body = new URLSearchParams()
             body.append('action', 'register')
-            body.append('name', name)
+            body.append('name', nameList[i])
+            body.append('name_kana', nameKanaList[i])
             body.append('age', 20)
             body.append('class_name', cls)
             body.append('gender', 1)
@@ -54,6 +56,7 @@
     body.append('action', 'update')
     body.append('id', 1)
     body.append('name', 'あいうえお')
+    body.append('name_kana', 'アイウエオ')
     body.append('age', 20)
     body.append('class_name', 'ウェブプログラマー養成コース')
     body.append('gender', 1)

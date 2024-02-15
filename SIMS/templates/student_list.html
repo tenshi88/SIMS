@@ -16,7 +16,8 @@
 
     <!-- 生徒一覧 -->
 
-    {% for list in students_by_class %}
+    <div id="student-list">
+        {% for list in students_by_class %}
         {% if list.students|length > 0 %}
         <div class="row g-1 mt-3">
             <div class="col-auto">
@@ -37,6 +38,7 @@
                 <tr>
                     <td>{{ student.name }}</td>
                     <td>{{ student.gender }}</td>
+                    <td>{{ student.age }}</td>
                     <td>
                         <button class="btn btn-primary" name="edit-student" onclick="location.href='/{{ school.name }}/student_detail/{{ student.id }}'">詳細</button>
                     </td>
@@ -47,80 +49,14 @@
         </div>
         {% endif %}
     {% endfor %}
+    </div>
+ 
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
-    <p>あ</p>
+    {{ '<script>{}</script>'.format('
+        let studentsByClass = ' ~ students_by_class | tojson ~ ';
+        let allStudents = null;
+        console.log(studentsByClass);
+    ') | safe }}
     <script src="{{ url_for('static', filename='js/student_list.js') }}"></script>
 </div>
 {% endblock %}
