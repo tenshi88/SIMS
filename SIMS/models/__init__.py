@@ -1,3 +1,4 @@
+import datetime
 import re
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
@@ -38,12 +39,16 @@ class BaseMixin(db.Model):
             all_data = cls.query.all()
         else:
             all_data = cls.query.filter_by(**kwargs).all()
+        if all_data is None:
+            return None
         return [data.to_dict() for data in all_data]
 
     # 一つのデータを取得する
     @classmethod
     def get_one(cls, **kwargs):
         data = cls.query.filter_by(**kwargs).first()
+        if data is None:
+            return None
         return data.to_dict()
 
     # データを辞書型に変換する
@@ -105,10 +110,16 @@ class Student(BaseMixin):
             })
         return students_by_class
 
+    # 生年月日から年齢を取得する
+    def get_age(self, birthday):
+        today = datetime.date.today()
+        return today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+
     # データを辞書型に変換する
     def to_dict(self):
         dic = super().to_dict()
-        dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d')
+        #dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d')
+        dic['age'] = self.get_age(dic['birthday'])
         # 1:男、2:女、3:その他 に変換
         match (dic['gender']):
             case 1:

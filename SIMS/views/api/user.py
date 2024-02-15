@@ -6,7 +6,7 @@ bp = Blueprint('api_user', __name__)
 
 # ユーザ操作用API
 @bp.route('/api/user', methods=['POST'])
-@login_required
+#@login_required
 def api_user():
     try:
         action = request.form.get('action')
