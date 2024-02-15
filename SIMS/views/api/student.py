@@ -22,6 +22,7 @@ def api_student():
                 Student.update(
                     id=request.form.get('id'),
                     name=request.form.get('name'),
+                    name_kana=request.form.get('name_kana'),
                     school=request.form.get('school'),
                     class_name=request.form.get('class_name'),
                     gender=int(request.form.get('gender')),
@@ -37,6 +38,7 @@ def api_student():
             case 'register':
                 Student.add(
                     name=request.form.get('name'),
+                    name_kana=request.form.get('name_kana'),
                     school=request.form.get('school'),
                     class_name=request.form.get('class_name'),
                     gender=int(request.form.get('gender')),

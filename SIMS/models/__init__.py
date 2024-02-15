@@ -57,6 +57,7 @@ class BaseMixin(db.Model):
 class Student(BaseMixin):
     __tablename__ = 'student'
     name = Column(String(64))
+    name_kana = Column(String(64))
     school = Column(String(64))
     class_name = Column(String(64))
     gender = Column(Integer)
