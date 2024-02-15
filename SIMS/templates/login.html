@@ -10,10 +10,19 @@
 <div class="container">
     <h2 class="fw-bold">生徒管理ログインページ</h2>
     <p class="fs-6">IDとパスワードを入力して下さい</p>
-    <form method="POST">
-        <input type="text" name="user_id" placeholder="ユーザー名">
-        <input type="password" name="password" placeholder="パスワード">
-        <button type="submit">ログイン</button>
+    <form method="POST" id="loginForm">
+        <label for="user_id" class="form-label">ID</label>
+        <input type="text" class="form-control"  id="user_id" name="user_id" placeholder="ユーザー名" pattern="^[a-zA-Z0-9@\.-_]+$" minlength="4" maxlength="64" required>
+        <label for="password" class="form-label">パスワード</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="パスワード" pattern="^[a-zA-Z0-9]+$" minlength="4" maxlength="64" required>
+        <button type="submit" class="btn btn-primary" value="Submit">ログイン</button>
     </form>
+    <p id="error"></p>
+    <p id="error2"></p>
 </div>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}
+</script>
+
+</body>
+</html>
