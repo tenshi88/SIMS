@@ -2,7 +2,6 @@ from importlib import import_module
 from flask import redirect
 from SIMS import app
 from SIMS.user_auth import login_manager
-
 import os, glob
 
 # 現在のファイルのディレクトリパスを取得します。

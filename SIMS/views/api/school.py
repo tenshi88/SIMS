@@ -1,12 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from SIMS import db, app
 from SIMS.models import School
 
 bp = Blueprint('api_school', __name__)
-
-with app.app_context():
-    db.create_all()
 
 # 学校一覧操作用API
 @bp.route('/api/school', methods=['POST'])
@@ -18,32 +14,24 @@ def api_school():
             # 学校削除
             case 'delete':
                 id = request.form.get('id')
-                school = School.query.filter(School.id == id).first()
-                db.session.delete(school)
-                db.session.commit()
-                db.session.close()
+                School.delete(id)
                 return jsonify({ 'error': '', 'status': 'success' })
             # 学校更新
             case 'update':
-                id = request.form.get('id')
-                school = School.query.filter(School.id == id).first()
-                school.name = request.form.get('name')
-                db.session.commit()
-                db.session.close()
+                School.update(
+                    id=request.form.get('id'),
+                    name=request.form.get('name')
+                )
                 return jsonify({ 'error': '', 'status': 'success' })
             # 学校登録
             case 'register':
-                school = School(
+                School.add(
                     name=request.form.get('name')
                 )
-                db.session.add(school)
-                db.session.commit()
-                db.session.close()
                 return jsonify({ 'error': '', 'status': 'success' })
             # 学校全取得
             case 'get':
-                schools = School.query.all()
-                schools = [school.getData() for school in schools]
+                schools = School.get_all()
                 return jsonify({ 'error': '', 'status': 'success', 'data': schools })
             case _:
                 return jsonify({ 'error': 'Invalid action', 'status': 'failure' })
