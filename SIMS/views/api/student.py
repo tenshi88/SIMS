@@ -24,7 +24,7 @@ def api_student():
                     name=request.form.get('name'),
                     school=request.form.get('school'),
                     class_name=request.form.get('class_name'),
-                    gender=request.form.get('gender'),
+                    gender=int(request.form.get('gender')),
                     birthday=datetime.strptime(request.form.get('birthday'), '%Y-%m-%d'), # 文字列を日付型に変換
                     address=request.form.get('address'),
                     phone=request.form.get('phone'),
@@ -39,7 +39,7 @@ def api_student():
                     name=request.form.get('name'),
                     school=request.form.get('school'),
                     class_name=request.form.get('class_name'),
-                    gender=request.form.get('gender'),
+                    gender=int(request.form.get('gender')),
                     birthday=datetime.strptime(request.form.get('birthday'), '%Y-%m-%d'), # 文字列を日付型に変換
                     address=request.form.get('address'),
                     phone=request.form.get('phone'),
