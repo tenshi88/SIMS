@@ -2,16 +2,17 @@ from os import name
 from flask import Blueprint,app, render_template, request
 from flask_login import login_required
 from SIMS import app
-from SIMS.models import Student
+from SIMS.models import School, Student
 
 bp = Blueprint('student_detail', __name__)
 
 
 # パスパラメータを使う(idの部分を変数に入れる)
-@bp.route('/本町校/student_detail/<int:id>',methods=['GET', 'POST'])
-# @login_required
-def student_detail(id):
+@bp.route('/<str:school>/student_detail/<int:id>',methods=['GET', 'POST'])
+@login_required
+def student_detail(id,school):
     student = Student.get_one(id=id)
+    school = School.get_one(school=school)
     return render_template('student_detail.html',\
         id = student['id'],\
         name = student['name'],\
