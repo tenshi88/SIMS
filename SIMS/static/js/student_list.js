@@ -84,26 +84,6 @@ studentSearchBtn.addEventListener('click', async () => {
     const searchType = document.getElementById('searchType').value;
     const isAllSchoolSearch = allSchoolSearch.checked;
     const students = isAllSchoolSearch ? allStudents : categorizedStudents;
-    /*
-    const result = students.map(list => {
-        return {
-            school: list.school,
-            class_name: list.class_name,
-            class_id: list.class_id,
-            open_date: list.open_date,
-            close_date: list.close_date,
-            students: list.students.filter(student => {
-                if (searchType === 'all') {
-                    return Object.values(student).some(value => {
-                        return value.toString().includes(searchStr);
-                    });
-                } else {
-                    return student[searchType].toString().includes(searchStr);
-                }
-            })
-        }
-    })
-    */
     const result = students.map(list => {
         return {
             ...list,

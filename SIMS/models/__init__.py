@@ -1,5 +1,4 @@
-import datetime
-import re
+import datetime, re
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
