@@ -6,16 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生徒詳細</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/student_detail.css">
 </head>
 
 <body>
     <header>
-        <h1>生徒詳細画面</h1>
-        <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary" type="button">ログイン</button>
-            <button class="btn btn-primary" type="button">ログアウト</button>
-          </div>
+        <!-- SubTitleの設定 -->
+        {% set subTitle = '生徒一覧' %}
+
+        {% set studentSearch = True %}
+
+        <!-- layoutの決定 -->
+        {% extends 'layout.html' %}
+
+        <!-- コンテンツ -->
+        {% block contents %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/student_list.css') }}"></link>
+        {{ super() }}
+
+
         <br><br>
         <p>次へ</p>
         <p>前へ</p>
@@ -39,7 +47,7 @@
             </tr>
             <tr>
                 <td>
-                    クラス：{{lass_name}}
+                    クラス：{{class_name}}
                 </td>
             </tr>
             <tr>
@@ -80,12 +88,14 @@
         </table>
     </main>
     <footer>
-            <p>編集</p>
-            <p>生徒一覧へ</p>
+        <p>編集</p>
+        <p>生徒一覧へ</p>
     </footer>
 
     <script src="../static/js/student_details.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+{% endblock %}
 
 </html>

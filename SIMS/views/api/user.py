@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
+from werkzeug.security import generate_password_hash
 from SIMS.models import User
 
 bp = Blueprint('api_user', __name__)
@@ -18,17 +19,23 @@ def api_user():
                 return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ更新
             case 'update':
+                password = request.form.get('password')
+                if password:
+                    password = generate_password_hash(password)
                 User.update(
                     id=request.form.get('id'),
                     user_id=request.form.get('user_id'),
-                    password=request.form.get('password')
+                    password=password
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ登録
             case 'register':
+                password = request.form.get('password')
+                if password:
+                    password = generate_password_hash(password)
                 User.add(
                     user_id=request.form.get('user_id'),
-                    password=request.form.get('password')
+                    password=password
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
             # ユーザ全取得

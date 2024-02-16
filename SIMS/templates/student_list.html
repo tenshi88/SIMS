@@ -21,7 +21,10 @@
         {% if list.students|length > 0 %}
         <div class="row g-1 mt-3">
             <div class="col-auto">
-                <h5 class="pt-1">{{ school }} {{ list.class_name }}</h5>
+                <h5 class="pt-1">{{ school }} {{ list.class_id }} {{ list.class_name }}</h5>
+                {% set open_date = list.open_date.strftime('%Y-%m-%d') %}
+                {% set close_date = list.close_date.strftime('%Y-%m-%d') %}
+                <span>{{ open_date }} ～ {{ close_date }}</span>
             </div>
         </div>
         <div class="row g-1">
@@ -36,14 +39,11 @@
                 </thead>
                 <tbody>
                 {% for student in list.students %}
-                <tr>
+                <tr onclick="location.href = '/{{ student.school }}/student_detail/{{ student.id }}'">
                     <td>{{ student.name }}</td>
                     <td>{{ student.name_kana }}</td>
                     <td>{{ student.gender }}</td>
                     <td>{{ student.age }}</td>
-                    <td>
-                        <button class="btn btn-primary" name="edit-student" onclick="location.href='/{{ school.name }}/student_detail/{{ student.id }}'">詳細</button>
-                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>

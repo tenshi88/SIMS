@@ -1,4 +1,5 @@
 from flask_login import LoginManager, login_user, logout_user
+from werkzeug.security import check_password_hash
 from SIMS import app
 from SIMS.models import User
 
@@ -7,8 +8,8 @@ login_manager.init_app(app)
 
 class UserAuth:
     def is_valid_user(user_id, password):
-        user = User.query.filter_by(user_id=user_id, password=password).first()
-        if user:
+        user = User.query.filter_by(user_id=user_id).first()
+        if user and check_password_hash(user.password, password):
             return True
         return False
 

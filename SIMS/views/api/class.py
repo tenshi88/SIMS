@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from SIMS.models import Class
@@ -20,13 +21,19 @@ def api_class():
             case 'update':
                 Class.update(
                     id=request.form.get('id'),
-                    name=request.form.get('name')
+                    name=request.form.get('name'),
+                    class_id=int(request.form.get('class_id')),
+                    open_date=datetime.strptime(request.form.get('open_date'), '%Y-%m-%d'), # 文字列を日付型に変換
+                    close_date=datetime.strptime(request.form.get('close_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
             # クラス登録
             case 'register':
                 Class.add(
-                    name=request.form.get('name')
+                    name=request.form.get('name'),
+                    class_id=int(request.form.get('class_id')),
+                    open_date=datetime.strptime(request.form.get('open_date'), '%Y-%m-%d'), # 文字列を日付型に変換
+                    close_date=datetime.strptime(request.form.get('close_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
             # クラス全取得
