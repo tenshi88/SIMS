@@ -11,7 +11,7 @@
 <div class="container">
 
     <h2>管理設定</h2>
-
+    <p>ID: {{ current_user.get_one()['user_id'] }}</p>
     <!-- ユーザー一覧 -->
     <div class="row g-1 mt-3">
         <div class="col-auto">

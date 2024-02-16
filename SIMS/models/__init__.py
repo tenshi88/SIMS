@@ -32,6 +32,12 @@ class BaseMixin(db.Model):
         db.session.delete(data)
         db.session.commit()
 
+    # データをすべて削除する
+    @classmethod
+    def delete_all(cls):
+        cls.query.delete()
+        db.session.commit()
+
     # 全データを取得する
     @classmethod
     def get_all(cls, **kwargs):
@@ -96,23 +102,23 @@ class Student(BaseMixin):
         return value
 
     # 生徒一覧を学校、クラスごとに分けたリストを取得する
-    def get_divide_by_class(school):
+    def get_categorized_list(school):
         if school is None:
-            schools = School.get_all()
             students = Student.get_all()
+            schools = list(set([dic['school'] for dic in students]))
         else:
-            schools = [school]
             students = Student.get_all(school=school)
+            schools = [school]
         classes = Class.get_all()
-        students_by_class = []
+        categorized_list = []
         for scl in schools:
             for cls in classes:
-                students_by_class.append({
+                categorized_list.append({
                     'school': scl,
                     'class_name': cls['name'],
                     'students': [student for student in students if student['class_name'] == cls['name']]
                 })
-        return students_by_class
+        return categorized_list
 
     # 生年月日から年齢を取得する
     def get_age(self, birthday):

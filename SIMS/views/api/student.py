@@ -59,8 +59,8 @@ def api_student():
                 else:
                     data = Student.get_all(**args)
                 return jsonify({ 'error': '', 'status': 'success', 'data': data })
-            case 'get_divide_by_class':
-                data = Student.get_divide_by_class(request.form.get('school'))
+            case 'get_categorized':
+                data = Student.get_categorized_list(request.form.get('school'))
                 return jsonify({ 'error': '', 'status': 'success', 'data': data })
             # 不正なアクション
             case _:
