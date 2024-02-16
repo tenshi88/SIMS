@@ -38,18 +38,18 @@
         <div>
             <div class="collapse navbar-collapse row g-1" id="studentSearch">
                 <div class="col-auto">
-                    <input class="form-control" placeholder="検索文字列">
+                    <input class="form-control" id="searchText" placeholder="検索文字列">
                 </div>
                 <div class="col-auto">
                     <select class="form-select" id="searchType">
                         <option value="name">名前</option>
-                        <option value="class">クラス</option>
+                        <option value="class_name">クラス</option>
                         <option value="age">年齢</option>
                         <option value="all">ALL</option>
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-outline-success" type="submit">検索</button>
+                    <button class="btn btn-outline-success" type="submit" id="studentSearchBtn">検索</button>
                 </div>
                 <div class="col-auto">
                     <input class="form-check-input" type="checkbox" value="" id="allSchoolSearch">
