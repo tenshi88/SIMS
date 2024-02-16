@@ -67,24 +67,17 @@ class BaseMixin(db.Model):
 # 生徒テーブル
 class Student(BaseMixin):
     __tablename__ = 'student'
-    name = Column(String(64))
-    name_kana = Column(String(64))
-    school = Column(String(64))
-    class_name = Column(String(64))
-    gender = Column(Integer)
-    birthday = Column(DateTime)
-    address = Column(String(64))
-    phone = Column(String(13))
-    email = Column(String(64))
-    gmail = Column(String(64))
-    note = Column(String(400))
-
-    # nullは許可しない
-    @validates('name', 'school', 'class_name', 'birthday', 'address', 'phone')
-    def validate_not_null(self, key, value):
-        if value is None:
-            raise ValueError(f'errors.required {key}は必須です。')
-        return value
+    name = Column(String(64), nullable=False)
+    name_kana = Column(String(64), nullable=False)
+    school = Column(String(64), nullable=False)
+    class_name = Column(String(64), nullable=False)
+    gender = Column(Integer, nullable=False)
+    birthday = Column(DateTime, nullable=False)
+    address = Column(String(64), nullable=False)
+    phone = Column(String(13), nullable=False)
+    email = Column(String(64), nullable=False)
+    gmail = Column(String(64), nullable=False)
+    note = Column(String(400), nullable=False)
 
     # emailのバリデーション
     @validates('email', 'gmail')
@@ -109,6 +102,8 @@ class Student(BaseMixin):
         else:
             students = Student.get_all(school=school)
             schools = [school]
+        # 名前順にソート
+        students = sorted(students, key=lambda x: x['name_kana'])
         classes = Class.get_all()
         categorized_list = []
         for scl in schools:
@@ -116,7 +111,11 @@ class Student(BaseMixin):
                 categorized_list.append({
                     'school': scl,
                     'class_name': cls['name'],
-                    'students': [student for student in students if student['class_name'] == cls['name']]
+                    'class_id': cls['class_id'],
+                    'open_date': cls['open_date'],
+                    'close_date': cls['close_date'],
+                    'is_open': cls['open_date'] <= datetime.datetime.now() <= cls['close_date'],
+                    'students': [student for student in students if student['class_name'] == cls['name'] and student['school'] == scl]
                 })
         return categorized_list
 
@@ -144,41 +143,23 @@ class Student(BaseMixin):
 class School(BaseMixin):
     __tablename__ = 'school'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64))
-
-    # nullは許可しない
-    @validates('name')
-    def validate_not_null(self, key, value):
-        if value is None:
-            raise ValueError(f'errors.required {key}は必須です。')
-        return value
+    name = Column(String(64), unique=True, nullable=False)
 
 # クラス一覧のテーブル
 class Class(BaseMixin):
     __tablename__ = 'class'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64))
-
-    # nullは許可しない
-    @validates('name')
-    def validate_not_null(self, key, value):
-        if value is None:
-            raise ValueError(f'errors.required {key}は必須です。')
-        return value
+    name = Column(String(64), unique=True)
+    class_id = Column(Integer, unique=True, nullable=False)
+    open_date = Column(DateTime, nullable=False)
+    close_date = Column(DateTime, nullable=False)
 
 # ユーザーのテーブル
 class User(BaseMixin, UserMixin):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String(64))
-    password = Column(String(64))
-
-    # nullは許可しない
-    @validates('user_id', 'password')
-    def validate_not_null(self, key, value):
-        if value is None:
-            raise ValueError(f'errors.required {key}は必須です。')
-        return value
+    user_id = Column(String(64), unique=True, nullable=False)
+    password = Column(String(64), nullable=False)
 
 # データベースのテーブルを作成
 with app.app_context():

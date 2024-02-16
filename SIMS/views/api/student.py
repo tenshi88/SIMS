@@ -17,6 +17,10 @@ def api_student():
                 id = request.form.get('id')
                 Student.delete(id)
                 return jsonify({ 'error': '', 'status': 'success' })
+            # 全生徒削除
+            case 'delete_all':
+                Student.delete_all()
+                return jsonify({ 'error': '', 'status': 'success' })
             # 生徒更新
             case 'update':
                 Student.update(
@@ -50,7 +54,7 @@ def api_student():
                     note=request.form.get('note'),
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
-            # IDと学校名で取得
+            # 取得
             case 'get':
                 args = request.form.to_dict()
                 del args['action']
@@ -59,6 +63,7 @@ def api_student():
                 else:
                     data = Student.get_all(**args)
                 return jsonify({ 'error': '', 'status': 'success', 'data': data })
+            # カテゴリ別取得
             case 'get_categorized':
                 data = Student.get_categorized_list(request.form.get('school'))
                 return jsonify({ 'error': '', 'status': 'success', 'data': data })

@@ -33,7 +33,7 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.user_id }}</td>
                     <td>
-                        {% set onclick = 'editUser(' ~ user.id ~ ',"' ~ user.user_id ~ '","' ~ user.password ~ '")' %}
+                        {% set onclick = 'editUser(' ~ user.id ~ ',"' ~ user.user_id ~ '")' %}
                         <button class="btn btn-primary" name="edit-user" onclick="{{ onclick }}">編集</button>
                     </td>
                 </tr>
@@ -107,7 +107,9 @@
                     <td>{{ cls.id }}</td>
                     <td>{{ cls.name }}</td>
                     <td>
-                        {% set onclick = 'editClass(' ~ cls.id ~ ',"' ~ cls.name ~ '")' %}
+                        {% set open_date = cls.open_date.strftime('%Y-%m-%d') %}
+                        {% set close_date = cls.close_date.strftime('%Y-%m-%d') %}
+                        {% set onclick = 'editClass(' ~ cls.id ~ ',"' ~ cls.name ~ '",' ~ cls.class_id ~ ',"' ~ open_date ~ '","' ~ close_date ~ '")' %}
                         <button class="btn btn-primary" name="edit-class" onclick="{{ onclick }}">編集</button>
                     </td>
                 </tr>
