@@ -12,6 +12,9 @@ def login():
     if request.method == 'POST':
         user_id = request.form.get('user_id')
         password = request.form.get('password')
+         # user_idとpasswordが英数字かどうかチェック
+        if not (user_id.isalnum() and password.isalnum()):
+            return render_template('login.html', error_msg='パスワードは英数字のみで入力してください。')
         # IDとパスワードが一致したらトップページにリダイレクト
         if UserAuth.is_valid_user(user_id, password):
             UserAuth.login_user(user_id)

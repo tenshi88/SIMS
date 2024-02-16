@@ -17,8 +17,11 @@
         <input type="password" class="form-control" id="password" name="password" placeholder="パスワード" pattern="^[a-zA-Z0-9]+$" minlength="4" maxlength="64" required>
         <button type="submit" class="btn btn-primary" value="Submit">ログイン</button>
     </form>
-    <p id="error"></p>
-    <p id="error2"></p>
+{% if error_msg %}
+<p style="color:red">{{ error_msg }}</p>
+{% endif %}
+    <!-- <p id="error"></p>
+    <p id="error2"></p> -->
 </div>
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}
