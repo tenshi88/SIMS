@@ -8,9 +8,9 @@
 {% block contents %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/school_list.css') }}"></link>
 {{ super() }}
-<div class="container">
+<div class="container text-center">
     <h2 class="fw-bold">学校一覧</h2>
-    <ul>
+    <ul class="list-unstyled">
         {% for school in schools %}
         <li><a href="/{{ school.name }}/student_list">{{ school.name }}</a></li>
         {% endfor %}

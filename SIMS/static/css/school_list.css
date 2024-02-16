@@ -16,6 +16,7 @@ ul {
 }
 li {
     margin-bottom: 15px;
+    font-size: x-large;
 }
 a:not(.navbar-brand) {
     text-decoration: none;
