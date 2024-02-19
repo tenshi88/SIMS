@@ -31,7 +31,7 @@ def student_detail(id,school):
         school = school
     )  
 
-
+    
     
 
 if __name__ == '__main__':
