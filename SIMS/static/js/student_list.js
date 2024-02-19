@@ -1,18 +1,9 @@
-;(async () => {
-    return
-    const body = new URLSearchParams()
-    body.append('action', 'get_categorized')
-    const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
-    const res = await req.json()
-    console.log(res.data)
-})()
-
 // 全校検索するか否かのチェックボックス
 const allSchoolSearch = document.getElementById('allSchoolSearch')
 // 卒業生を表示するか否かのチェックボックス
 const graduated = document.getElementById('graduated')
 // 検索ボタン
-const studentSearchBtn = document.getElementById('studentSearchBtn')
+const studentSearchBtn = document.querySelector('#studentSearchBtn')
 
 //reloadPage(categorizedStudents)
 
@@ -65,11 +56,16 @@ function reloadPage(categorizedStudents) {
 allSchoolSearch.addEventListener('change', async (event) => {
     if (event.target.checked) {
         if (allStudents === null) {
+            const span = studentSearchBtn.querySelectorAll('span')
+            span[0].classList.remove('d-none')
+            span[1].classList.add('d-none')
             const body = new URLSearchParams()
             body.append('action', 'get_categorized')
             const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
             const res = await req.json()
             allStudents = res.data
+            span[0].classList.add('d-none')
+            span[1].classList.remove('d-none')
         }
     }
 })
