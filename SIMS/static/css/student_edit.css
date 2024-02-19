@@ -1,0 +1,20 @@
+h1 {
+    color: rgb(4, 0, 255);
+    text-align: left;
+}
+body {
+    margin: auto;
+    text-align: left;
+
+}
+p{
+    text-align: right;
+    padding-right: 30px;
+}
+
+div{
+    text-align: center;
+    float: right;
+    padding-left: 20px;
+    padding-right: 5px;
+}
