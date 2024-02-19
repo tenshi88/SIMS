@@ -1,6 +1,6 @@
 import datetime, re
 import itertools
-from sqlalchemy import Column, Integer, String, DateTime, func
+from sqlalchemy import Column, Integer, String, DateTime, asc, desc, func
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
 from SIMS import db, app
@@ -103,13 +103,15 @@ class Student(BaseMixin):
     # 生徒一覧を学校、クラスごとに分けたリストを取得する
     def get_categorized_list(school):
         if school is None:
-            students = Student.get_all()
+            # 名前順にソート
+            students = Student.query.order_by(asc(Student.name_kana)).all()
+            students = [student.to_dict() for student in students]
             schools = list(set([dic['school'] for dic in students]))
         else:
-            students = Student.get_all(school=school)
+            # 名前順にソート
+            students = Student.query.filter_by(school=school).order_by(asc(Student.name_kana)).all()
+            students = [student.to_dict() for student in students]
             schools = [school]
-        # 名前順にソート
-        students = sorted(students, key=lambda x: x['name_kana'])
         classes = Class.get_all()
         categorized_list = []
         for scl in schools:
