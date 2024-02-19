@@ -14,23 +14,14 @@ bp = Blueprint('student_detail', __name__)
 def student_detail(id,school):
 
     student = Student.get_one(id=id)
-    school = School.get_one(name=school)
+    schools = School.get_all()
 
     return render_template('student_detail.html',\
-        id = student['id'],\
-        name = student['name'],\
-        name_kana = student['name_kana'],\
-        class_name = student['class_name'],\
-        gender = student['gender'],\
-        birthday = student['birthday'],\
-        address = student['address'],\
-        phone = student['phone'],\
-        email = student['email'],\
-        gmail = student['gmail'],\
-        note = student['note'],\
-        school = school
+        student = student,\
+        school = school,\
+        schools = schools
     )  
-
+ 
     
     
 

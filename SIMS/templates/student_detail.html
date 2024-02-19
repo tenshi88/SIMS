@@ -14,8 +14,6 @@
         <!-- SubTitleの設定 -->
         {% set subTitle = '生徒一覧' %}
 
-        {% set studentSearch = True %}
-
         <!-- layoutの決定 -->
         {% extends 'layout.html' %}
 
@@ -26,75 +24,71 @@
 
 
         <br><br>
-        {% for item in student%}
-            <input type="butt"><a href="student_detail.html">{}</a>
-        {% endfor %}
-        <p>次へ</p>
-        <p>前へ</p>
+        <a href="{{student.next_id}}"><p>次へ</p></a>
+        <a href="{{student.prev_id}}"><p>前へ</p></a>
     </header>
     <main>
         <table class="table table-striped">
             <tr>
                 <td>
-                    id:{{id}}
+                    id:{{student.id}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    生徒名：{{name}}
+                    生徒名：{{student.name}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    フリガナ：{{name_kana}}
+                    フリガナ：{{student.name_kana}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    クラス：{{class_name}}
+                    クラス：{{student.class_name}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    性別：{{gender}}
+                    性別：{{student.gender}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    生年月日：{{birthday}}
+                    生年月日：{{student.birthday}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    住所：{{address}}
+                    住所：{{student.address}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    電話番号：{{phone}}
+                    電話番号：{{student.phone}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 個人用：{{email}}
+                    E-mail 個人用：{{student.email}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 学校用：{{gmail}}
+                    E-mail 学校用：{{student.gmail}}
                 </td>
             </tr>
             <tr>
                 <td>
-                    備考：{{note}}
+                    備考：{{student.note}}
                 </td>
             </tr>
         </table>
     </main>
     <footer>
-        <p>編集</p>
-        <p>生徒一覧へ</p>
-    </footer>
+        <p><a  href="{{ url_for('student_edit.student_edit') }}">編集へ</a></p>
+        <p><a href="{{ url_for('student_list.student_list', school=school)}}">生徒一覧へ</a></p>
 
     <script src="../static/js/student_details.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
