@@ -20,8 +20,6 @@ const studentSearchBtn = document.getElementById('studentSearchBtn')
 function reloadPage(categorizedStudents) {
     const studentListNode = document.querySelector('#student-list')
     const buildStudentTr = (students) => {
-        // 生徒を名前でソート
-        //students.sort((a, b) => a.name_kana.localeCompare(b.name_kana))
         return students.reduce((tr, student) => {
             return `${tr}
             <tr onclick="location.href = '/${student.school}/student_detail/${student.id}'">
