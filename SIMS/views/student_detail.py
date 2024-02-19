@@ -23,8 +23,6 @@ def student_detail(id,school):
     )  
  
     
-    
-
 if __name__ == '__main__':
     app.debug = True
     app.run(host='localhost')
