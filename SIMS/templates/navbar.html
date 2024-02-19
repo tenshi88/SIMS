@@ -9,72 +9,73 @@
         <div>
             <div class="collapse navbar-collapse row g-1" id="navbarContent">
                 {% if school %} <!-- 学校選択時 -->
-                <div class="col-auto">
-                    <span class="dropdown">
-                        <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            {{ school }}
-                        </button>
-                        <ul class="dropdown-menu">
-                            {% for s in schools %}
-                            {% set url = '/{}/student_list'.format(s.name) %}
-                            <li><a class="dropdown-item" href="{{ url_for('student_list.student_list', school=s.name) }}">{{s.name}}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </span>
-                </div>
+                    <div class="col-auto">
+                        <span class="dropdown">
+                            <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                {{ school }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for s in schools %}
+                                    <li><a class="dropdown-item" href="{{ url_for('student_list.student_list', school=s.name) }}">{{s.name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </span>
+                    </div>
                 {% endif %}
                 {% if current_user.is_authenticated %} <!-- ログイン中の場合のみ表示 -->
-                <div class="col-auto">
-                    <!-- <span class="d-inline-block text-truncate align-middle" style="max-width: 100px;">ID: {{ current_user.get_id() }}00000000000000000000</span> -->
-                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/admin_panel'">管理設定</button>
-                    <button class="btn btn-outline-secondary" type="button" onclick="location.href='/logout'">ログアウト</button>
-                </div>
+                    <div class="col-auto">
+                        {% set admin_panel = url_for('admin_panel.admin_panel') %}
+                        <button class="btn btn-outline-primary" type="button" onclick="location.href='{{ admin_panel }}'">管理設定</button>
+                        {% set logout = url_for('logout.logout') %}
+                        <button class="btn btn-outline-secondary" type="button" onclick="location.href='{{ logout }}'">ログアウト</button>
+                    </div>
                 {% endif %}
             </div>
         </div>
     </nav>
     {% if studentSearch %} <!-- 生徒検索メニュー有効時 -->
-    <nav class="container-sm navbar navbar-expand-md mx-auto flex-row justify-content-center" style="max-width: 960px;">
-        <div>
-            <div class="collapse navbar-collapse row g-1" id="studentSearch">
-                <div class="col-auto">
-                    <input class="form-control" id="searchText" placeholder="検索文字列">
+        <nav class="container-sm navbar navbar-expand-md mx-auto flex-row justify-content-center" style="max-width: 960px;">
+            <div>
+                <div class="collapse navbar-collapse row g-1" id="studentSearch">
+                    <div class="col-auto">
+                        <input class="form-control" id="searchText" placeholder="検索文字列">
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" id="searchType">
+                            <option value="all">検索対象:ALL</option>
+                            <option value="name">名前</option>
+                            <option value="name_kana">フリガナ</option>
+                            <option value="gender">性別</option>
+                            <option value="age">年齢</option>
+                            <option value="school">学校名</option>
+                            <option value="class_name">クラス</option>
+                            <option value="address">住所</option>
+                            <option value="phone">電話番号</option>
+                            <option value="email">E-mail 個人用</option>
+                            <option value="gmail">E-mail 学校用</option>
+                            <option value="note">備考</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-outline-success" type="submit" id="studentSearchBtn">検索</button>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" value="" id="allSchoolSearch">
+                        <label class="form-check-label" for="allSchoolSearch">全校検索</label>
+                        <input class="form-check-input" type="checkbox" value="" id="graduated">
+                        <label class="form-check-label" for="graduated">卒業生表示</label>
+                    </div>
                 </div>
                 <div class="col-auto">
-                    <select class="form-select" id="searchType">
-                        <option value="all">検索対象:ALL</option>
-                        <option value="name">名前</option>
-                        <option value="name_kana">フリガナ</option>
-                        <option value="gender">性別</option>
-                        <option value="age">年齢</option>
-                        <option value="school">学校名</option>
-                        <option value="class_name">クラス</option>
-                        <option value="address">住所</option>
-                        <option value="phone">電話番号</option>
-                        <option value="email">E-mail 個人用</option>
-                        <option value="gmail">E-mail 学校用</option>
-                        <option value="note">備考</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-outline-success" type="submit" id="studentSearchBtn">検索</button>
-                </div>
-                <div class="col-auto">
-                    <input class="form-check-input" type="checkbox" value="" id="allSchoolSearch">
-                    <label class="form-check-label" for="allSchoolSearch">全校検索</label>
-                    <input class="form-check-input" type="checkbox" value="" id="graduated">
-                    <label class="form-check-label" for="graduated">卒業生表示</label>
+                    <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#studentSearch">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
-            <div class="col-auto">
-                <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#studentSearch">
-                    <i class="fas fa-search"></i>
-                </button>
+            <div class="ms-auto">
+                {% set student_register = url_for('student_register.student_register', school=school) %}
+                <button class="btn btn-outline-primary" type="button" onclick="location.href='{{ student_register }}'">新規登録</button>
             </div>
-        </div>
-        <div class="ms-auto">
-            <button class="btn btn-outline-primary" type="button" onclick="location.href='/student_register'">新規登録</button>
-        </div>
-    </nav>
+        </nav>
     {% endif %}
 </header>

@@ -1,4 +1,4 @@
-(async () => {
+;(async () => {
     return
     const body = new URLSearchParams()
     body.append('action', 'get_categorized')
@@ -14,7 +14,7 @@ const graduated = document.getElementById('graduated')
 // 検索ボタン
 const studentSearchBtn = document.getElementById('studentSearchBtn')
 
-reloadPage(categorizedStudents)
+//reloadPage(categorizedStudents)
 
 // ページの再読み込み
 function reloadPage(categorizedStudents) {
@@ -37,13 +37,11 @@ function reloadPage(categorizedStudents) {
     for (const list of categorizedStudents) {
         if (!list.students.length) continue
         if (!list.is_open && !graduated.checked) continue
-        const open_date = new Date(list.open_date).toISOString().slice(0, 10)
-        const close_date = new Date(list.close_date).toISOString().slice(0, 10)
         mainHtml += `
             <div class="row g-1 mt-3">
                 <div class="col-auto">
-                    <h5 class="pt-1">${list.school} ${list.class_id} ${list.class_name}</h5>
-                    <span>${open_date} ～ ${close_date}</span>
+                    <h5 class="pt-1">${list.school} ${list.class_number} ${list.class_name}</h5>
+                    <span>${list.open_date} ～ ${list.close_date}</span>
                 </div>
             </div>
             <div class="row g-1">
@@ -76,28 +74,28 @@ allSchoolSearch.addEventListener('change', async (event) => {
             allStudents = res.data
         }
     }
-});
+})
 
 // 検索(検索対象は名前、クラス、年齢、ALL)
 studentSearchBtn.addEventListener('click', async () => {
-    const searchStr = document.getElementById('searchText').value;
-    const searchType = document.getElementById('searchType').value;
-    const isAllSchoolSearch = allSchoolSearch.checked;
-    const students = isAllSchoolSearch ? allStudents : categorizedStudents;
-    const result = students.map(list => {
+    const searchStr = document.getElementById('searchText').value
+    const searchType = document.getElementById('searchType').value
+    const isAllSchoolSearch = allSchoolSearch.checked
+    const students = isAllSchoolSearch ? allStudents : categorizedStudents
+    const result = students.map((list) => {
         return {
             ...list,
-            students: list.students.filter(student => {
+            students: list.students.filter((student) => {
                 if (searchType === 'all') {
-                    return Object.values(student).some(value => {
-                        return value.toString().includes(searchStr);
-                    });
+                    return Object.values(student).some((value) => {
+                        return value.toString().includes(searchStr)
+                    })
                 } else {
-                    return student[searchType].toString().includes(searchStr);
+                    return student[searchType].toString().includes(searchStr)
                 }
-            })
+            }),
         }
     })
     // 検索結果を表示
     reloadPage(result)
-});
+})

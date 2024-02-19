@@ -1,5 +1,6 @@
 import datetime, re
-from sqlalchemy import Column, Integer, String, DateTime
+import itertools
+from sqlalchemy import Column, Integer, String, DateTime, func
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
 from SIMS import db, app
@@ -14,6 +15,12 @@ class BaseMixin(db.Model):
     def add(cls, **kwargs):
         data = cls(**kwargs)
         db.session.add(data)
+        db.session.commit()
+
+    # データを複数追加する
+    @classmethod
+    def add_many(cls, data_list):
+        db.session.bulk_insert_mappings(cls, data_list)
         db.session.commit()
 
     # データを更新する
@@ -110,13 +117,24 @@ class Student(BaseMixin):
                 categorized_list.append({
                     'school': scl,
                     'class_name': cls['name'],
-                    'class_id': cls['class_id'],
-                    'open_date': cls['open_date'],
-                    'close_date': cls['close_date'],
+                    'class_number': cls['class_number'],
+                    'open_date': cls['open_date'].strftime('%Y-%m-%d'), # 日付を文字列に変換
+                    'close_date': cls['close_date'].strftime('%Y-%m-%d'), # 日付を文字列に変換
                     'is_open': cls['open_date'] <= datetime.datetime.now() <= cls['close_date'],
                     'students': [student for student in students if student['class_name'] == cls['name'] and student['school'] == scl]
                 })
         return categorized_list
+
+    # 一つのデータを取得する場合、一つ前と一つ後のIDを取得して追加
+    @classmethod
+    def get_one(cls, **kwargs):
+        dic = super().get_one(**kwargs)
+        students = [listByClass['students'] for listByClass in cls.get_categorized_list(dic['school'])]
+        categorized_id_list = [student['id'] for student in itertools.chain.from_iterable(students)]
+        index = categorized_id_list.index(dic['id'])
+        dic['prev_id'] = categorized_id_list[index-1] if index != 0 else None
+        dic['next_id'] = categorized_id_list[index+1] if index != len(categorized_id_list)-1 else None
+        return dic
 
     # 生年月日から年齢を取得する
     def get_age(self, birthday):
@@ -126,8 +144,8 @@ class Student(BaseMixin):
     # データを辞書型に変換する
     def to_dict(self):
         dic = super().to_dict()
-        #dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d')
-        dic['age'] = self.get_age(dic['birthday'])
+        dic['age'] = self.get_age(dic['birthday']) # 年齢を追加
+        dic['birthday'] = dic['birthday'].strftime('%Y-%m-%d') # 日付を文字列に変換
         # 1:男、2:女、3:その他 に変換
         match (dic['gender']):
             case 1:
@@ -149,7 +167,7 @@ class Class(BaseMixin):
     __tablename__ = 'class'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(64), unique=True)
-    class_id = Column(Integer, unique=True, nullable=False)
+    class_number = Column(Integer, unique=True, nullable=False)
     open_date = Column(DateTime, nullable=False)
     close_date = Column(DateTime, nullable=False)
 
@@ -162,4 +180,8 @@ class User(BaseMixin, UserMixin):
 
 # データベースのテーブルを作成
 with app.app_context():
+    #Student.__table__.drop(bind=db.engine)
+    #School.__table__.drop(bind=db.engine)
+    #Class.__table__.drop(bind=db.engine)
+    #User.__table__.drop(bind=db.engine)
     db.create_all()

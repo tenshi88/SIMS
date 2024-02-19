@@ -22,7 +22,7 @@ def api_class():
                 Class.update(
                     id=request.form.get('id'),
                     name=request.form.get('name'),
-                    class_id=int(request.form.get('class_id')),
+                    class_number=int(request.form.get('class_number')),
                     open_date=datetime.strptime(request.form.get('open_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                     close_date=datetime.strptime(request.form.get('close_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                 )
@@ -31,7 +31,7 @@ def api_class():
             case 'register':
                 Class.add(
                     name=request.form.get('name'),
-                    class_id=int(request.form.get('class_id')),
+                    class_number=int(request.form.get('class_number')),
                     open_date=datetime.strptime(request.form.get('open_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                     close_date=datetime.strptime(request.form.get('close_date'), '%Y-%m-%d'), # 文字列を日付型に変換
                 )

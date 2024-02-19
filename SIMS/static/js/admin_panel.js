@@ -35,7 +35,7 @@ function editUser(id, user_id) {
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
-    // ユーザーを追加する場合、追加ボタンのみを表示する
+        // ユーザーを追加する場合、追加ボタンのみを表示する
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
@@ -84,13 +84,13 @@ function editUser(id, user_id) {
 function editSchool(id, name) {
     const label = '学校を' + (id ? '編集' : '追加')
     let footer = ''
-    // 学校を編集する場合、更新ボタンと削除ボタンを表示する 
+    // 学校を編集する場合、更新ボタンと削除ボタンを表示する
     if (label === '学校を編集') {
         footer = `
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
-    // 学校を追加する場合、追加ボタンのみを表示する
+        // 学校を追加する場合、追加ボタンのみを表示する
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
@@ -128,7 +128,7 @@ function editSchool(id, name) {
 }
 
 // クラス編集/追加/削除モーダルの表示
-function editClass(id, name, class_id, open_date, close_date) {
+function editClass(id, name, class_number, open_date, close_date) {
     const label = 'クラスを' + (id ? '編集' : '追加')
     let footer = ''
     // クラスを編集する場合、更新ボタンと削除ボタンを表示する
@@ -137,7 +137,7 @@ function editClass(id, name, class_id, open_date, close_date) {
             <button type="button" id="delete-confirm" class="btn btn-danger">削除</button>
             <button type="button" name="submit-api" id="update" class="btn btn-primary">更新</button>
         `
-    // クラスを追加する場合、追加ボタンのみを表示する   
+        // クラスを追加する場合、追加ボタンのみを表示する
     } else {
         footer = `
             <button type="button" name="submit-api" id="register" class="btn btn-primary">追加</button>
@@ -150,15 +150,17 @@ function editClass(id, name, class_id, open_date, close_date) {
                 <label for="name">クラス名<span class="text-danger">*</span></label>
                 <input class="form-control my-2" type="text" id="name" name="name" placeholder="クラス名" maxlength="64" value="${name ?? ''}" required>
                 <div class="invalid-feedback" data-empty="クラス名を入力してください" data-invalid="64文字以内で入力してください"></div>
-                <label for="class_id">クラスID<span class="text-danger">*</span></label>
-                <input class="form-control my-2" type="number" id="class_id" name="class_id" placeholder="クラスID" minlength="3" maxlength="64" value="${class_id ?? ''}" required>
-                <div class="invalid-feedback" data-empty="クラスIDを入力してください" data-invalid="64文字以内で入力してください"></div>
-                <label for="open_date">開校日<span class="text-danger">*</span></label>
+                <label for="class_number">クラス番号<span class="text-danger">*</span></label>
+                <input class="form-control my-2" type="number" id="class_number" name="class_number" placeholder="クラス番号" minlength="3" maxlength="64" value="${
+                    class_number ?? ''
+                }" required>
+                <div class="invalid-feedback" data-empty="クラス番号を入力してください" data-invalid="64文字以内で入力してください"></div>
+                <label for="open_date">開講日<span class="text-danger">*</span></label>
                 <input class="form-control my-2" type="date" id="open_date" name="open_date" value="${open_date ?? ''}" required>
-                <div class="invalid-feedback" data-empty="開校日を選択してください" data-invalid="開校日を選択してください"></div>
-                <label for="close_date">修了日<span class="text-danger">*</span></label>
+                <div class="invalid-feedback" data-empty="開講日を選択してください" data-invalid="開講日を選択してください"></div>
+                <label for="close_date">閉講日<span class="text-danger">*</span></label>
                 <input class="form-control my-2" type="date" id="close_date" name="close_date" value="${close_date ?? ''}" required>
-                <div class="invalid-feedback" data-empty="修了日を選択してください" data-invalid="修了日を選択してください"></div>
+                <div class="invalid-feedback" data-empty="閉講日を選択してください" data-invalid="閉講日を選択してください"></div>
             </div>
         </form>
     `
@@ -180,7 +182,7 @@ function editClass(id, name, class_id, open_date, close_date) {
     })
 
     // 入力時のバリデーションチェック
-    const ids = ['name', 'class_id', 'open_date', 'close_date']
+    const ids = ['name', 'class_number', 'open_date', 'close_date']
     ids.forEach((id) => {
         document.getElementById(id).addEventListener('input', validation)
     })
@@ -219,14 +221,12 @@ function reloadPage() {
     }, '')
 
     classTableBody.innerHTML = classes.reduce((html, cls) => {
-        const open_date = new Date(cls.open_date).toISOString().substring(0, 10)
-        const close_date = new Date(cls.close_date).toISOString().substring(0, 10)
         return `${html}
             <tr>
                 <td>${cls.id}</td>
                 <td>${cls.name}</td>
                 <td>
-                    <button type="button" name="edit-class" class="btn btn-primary" onclick="editClass(${cls.id}, '${cls.name}', ${cls.class_id},'${open_date}','${close_date}')">編集</button>
+                    <button type="button" name="edit-class" class="btn btn-primary" onclick="editClass(${cls.id}, '${cls.name}', ${cls.class_number},'${cls.open_date}','${cls.close_date}')">編集</button>
                 </td>
             </tr>
         `
@@ -326,7 +326,7 @@ async function fetchPostAndHandleError(event, path, action, id) {
     // エラーメッセージがなければレスポンスを返す
     if (json.error === '') {
         return json
-    // エラーメッセージがあればそれを投げる
+        // エラーメッセージがあればそれを投げる
     } else {
         throw new Error(json.error)
     }

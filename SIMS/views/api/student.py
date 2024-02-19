@@ -1,4 +1,6 @@
+import ast
 from datetime import datetime
+import json
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from SIMS.models import Student
@@ -54,6 +56,16 @@ def api_student():
                     note=request.form.get('note'),
                 )
                 return jsonify({ 'error': '', 'status': 'success' })
+            
+            # 生徒を複数登録
+            case 'register_many':
+                students = request.form.get('students[]')
+                students = json.loads(students) # 文字列をリストに変換
+                for student in students:
+                    student['birthday'] = datetime.strptime(student['birthday'], '%Y-%m-%d') # 文字列を日付型に変換
+                Student.add_many(students)
+                return jsonify({ 'error': '', 'status': 'success' })
+
             # 取得
             case 'get':
                 args = request.form.to_dict()

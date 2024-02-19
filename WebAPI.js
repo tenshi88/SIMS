@@ -6,7 +6,7 @@
     const nameKanaList = ['アアア', 'イイイ', 'ウウウ', 'エエエ', 'オオオ']
     const classList = ['Aコース', 'Bコース', 'Cコース', 'Dコース', 'Eコース', 'Fコース']
     let body
-    for (let i = 0; i < nameList.length; i++) { 
+    for (let i = 0; i < nameList.length; i++) {
         for (const cls of classList) {
             body = new URLSearchParams()
             body.append('action', 'register')
@@ -39,12 +39,21 @@
     console.log(res)
 })()
 
+// 全削除
+;(async () => {
+    const body = new URLSearchParams()
+    body.append('action', 'delete_all')
+    const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
+    const res = await req.json()
+    console.log(res)
+})()
+
 // 取得
 ;(async () => {
     const body = new URLSearchParams()
     body.append('action', 'get')
     body.append('school', '天満橋校')
-    //body.append('id', 1)
+    body.append('id', 1)
     const req = await fetch('http://localhost/api/student', { method: 'POST', body: body })
     const res = await req.json()
     console.log(res)
@@ -120,14 +129,16 @@
 // クラスの登録、削除、取得、更新を行うAPI
 // 追加
 ;(async () => {
-    const classes = ['ウェブプログラマー養成コース']
-    for (const className of classes) {
+    const classes = ['Aコース', 'Bコース', 'Cコース', 'Dコース', 'Eコース', 'Fコース']
+    const openDates = ['2023-05-01', '2023-06-01', '2023-07-01', '2023-08-01', '2023-09-01', '2023-10-01']
+    const closeDates = ['2023-11-30', '2023-12-31', '2024-01-31', '2024-02-29', '2024-03-31', '2024-04-30']
+    for (let i = 0; i < classes.length; i++) {
         const body = new URLSearchParams()
         body.append('action', 'register')
-        body.append('name', className)
-        body.append('class_id', 1001)
-        body.append('open_date', '2023-01-01')
-        body.append('close_date', '2023-12-31')
+        body.append('name', classes[i])
+        body.append('class_number', 1001 + i)
+        body.append('open_date', openDates[i])
+        body.append('close_date', closeDates[i])
         const req = await fetch('http://localhost/api/class', { method: 'POST', body: body })
         const res = await req.json()
         console.log(res)
@@ -159,7 +170,7 @@
     body.append('action', 'update')
     body.append('id', 1)
     body.append('name', 'ウェブプログラマー養成コース')
-    body.append('class_id', 1001)
+    body.append('class_number', 1001)
     body.append('open_date', '2023-01-01')
     body.append('close_date', '2023-12-31')
     const req = await fetch('http://localhost/api/class', { method: 'POST', body: body })

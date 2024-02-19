@@ -11,46 +11,43 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student_list.css') }}"></link>
 {{ super() }}
 <div class="container">
-
+    <!-- 生徒一覧 -->
     <h2>生徒一覧</h2>
 
-    <!-- 生徒一覧 -->
-
     <div id="student-list">
-        {% for list in categorized_students %}
-        {% if list.students|length > 0 %}
-        <div class="row g-1 mt-3">
-            <div class="col-auto">
-                <h5 class="pt-1">{{ school }} {{ list.class_id }} {{ list.class_name }}</h5>
-                {% set open_date = list.open_date.strftime('%Y-%m-%d') %}
-                {% set close_date = list.close_date.strftime('%Y-%m-%d') %}
-                <span>{{ open_date }} ～ {{ close_date }}</span>
+        {% for list in categorized_students if list.is_open %}
+            {% if list.students|length > 0 %}
+            <div class="row g-1 mt-3">
+                <div class="col-auto">
+                    <h5 class="pt-1">{{ school }} {{ list.class_number }} {{ list.class_name }}</h5>
+                    <span>{{ list.open_date }} ～ {{ list.close_date }}</span>
+                </div>
             </div>
-        </div>
-        <div class="row g-1">
-            <table id="student-table" class="table table-striped table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>名前</th>
-                        <th>フリガナ</th>
-                        <th>性別</th>
-                        <th>年齢</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for student in list.students %}
-                <tr onclick="location.href = '/{{ student.school }}/student_detail/{{ student.id }}'">
-                    <td>{{ student.name }}</td>
-                    <td>{{ student.name_kana }}</td>
-                    <td>{{ student.gender }}</td>
-                    <td>{{ student.age }}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
-    {% endfor %}
+            <div class="row g-1">
+                <table id="student-table" class="table table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>名前</th>
+                            <th>フリガナ</th>
+                            <th>性別</th>
+                            <th>年齢</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for student in list.students %}
+                        {% set onclick_url = url_for('student_detail.student_detail', id=student.id, school=school) %}
+                        <tr onclick="location.href = '{{ onclick_url }}'">
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.name_kana }}</td>
+                            <td>{{ student.gender }}</td>
+                            <td>{{ student.age }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        {% endfor %}
     </div>
  
 
