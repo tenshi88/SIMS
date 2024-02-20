@@ -5,12 +5,12 @@ const graduated = document.getElementById('graduated')
 // 検索ボタン
 const studentSearchBtn = document.querySelector('#studentSearchBtn')
 
-//reloadPage(categorizedStudents)
-
-// ページの再読み込み
-function reloadPage(categorizedStudents) {
-    const studentListNode = document.querySelector('#student-list')
-    const buildStudentTr = (students) => {
+class Table {
+    constructor() {
+    }
+    static studentListNode = document.querySelector('#student-list')
+    // tableのtr要素を構築する
+    buildStudentTr(students) {
         return students.reduce((tr, student) => {
             return `${tr}
             <tr onclick="location.href = '/${student.school}/student_detail/${student.id}'">
@@ -22,36 +22,40 @@ function reloadPage(categorizedStudents) {
             `
         }, '')
     }
-    let mainHtml = ''
-    for (const list of categorizedStudents) {
-        if (!list.students.length) continue
-        if (!list.is_open && !graduated.checked) continue
-        mainHtml += `
-            <div class="row g-1 mt-3">
-                <div class="col-auto">
-                    <h5 class="pt-1">${list.school} ${list.class_number} ${list.class_name}</h5>
-                    <span>${list.open_date} ～ ${list.close_date}</span>
+    // tableを描画する
+    render(categorizedStudents) {
+        let mainHtml = ''
+        for (const list of categorizedStudents) {
+            if (!list.students.length) continue
+            if (!list.is_open && !graduated.checked) continue
+            mainHtml += `
+                <div class="row g-1 mt-3">
+                    <div class="col-auto">
+                        <h5 class="pt-1">${list.school} ${list.class_number} ${list.class_name}</h5>
+                        <span>${list.open_date} ～ ${list.close_date}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-1">
-                <table id="student-table" class="table table-striped table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>名前</th>
-                            <th>フリガナ</th>
-                            <th>性別</th>
-                            <th>年齢</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${buildStudentTr(list.students)}
-                    </tbody>
-                </table>
-            </div>
-        `
+                <div class="row g-1">
+                    <table id="student-table" class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>名前</th>
+                                <th>フリガナ</th>
+                                <th>性別</th>
+                                <th>年齢</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.buildStudentTr(list.students)}
+                        </tbody>
+                    </table>
+                </div>
+            `
+        }
+        Table.studentListNode.innerHTML = mainHtml
     }
-    studentListNode.innerHTML = mainHtml
 }
+//new Table().render(categorizedStudents)
 
 allSchoolSearch.addEventListener('change', async (event) => {
     if (event.target.checked) {
@@ -91,5 +95,5 @@ studentSearchBtn.addEventListener('click', async () => {
         }
     })
     // 検索結果を表示
-    reloadPage(result)
+    new Table().render(result)
 })
