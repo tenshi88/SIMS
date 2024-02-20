@@ -32,6 +32,7 @@ class BaseMixin(db.Model):
         for key, value in kwargs.items():
             setattr(data, key, value)
         db.session.commit()
+        return data.id
 
     # データを削除する
     @classmethod
