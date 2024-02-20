@@ -13,8 +13,7 @@
         <!-- SubTitleの設定 -->
         {% set subTitle = '生徒一覧' %}
 
-        {% set studentSearch = True %}
-
+       
         <!-- layoutの決定 -->
         {% extends 'layout.html' %}
 
@@ -35,7 +34,7 @@
         <p>前へ</p> -->
     </header>
     <main>
-    <form method="POST" action="送信先URL">
+    <form method="POST">
         <table class="table table-striped">
             <tr>
                 <td>
@@ -44,62 +43,66 @@
             </tr>
             <tr>
                 <td>
-                    生徒名: <input type="text" name="name" id="name">
+                    生徒名: <input type="text" name="name" id="name" value="山田">
                 </td>
             </tr>
             <tr>
                 <td>
-                    フリガナ: <input type="text" name="furigana" id="furigana">
+                    フリガナ: <input type="text" name="name_kana" id="name_kana" value="ヤマダ">
                 </td>
             </tr>
             <tr>
                 <td>
-                    クラス： <input type="text" name="class" id="class">
+                    クラス： <input type="text" name="class_name" id="class_name" value="Aコース">
                 </td>
+                <!-- セレクトボックス、プルダウン、HTML実装する -->
             </tr>
             <tr>
                 <td>
-                    性別：  <input type="radio" name="gender" id="male" value="男性">
+                    性別：  <input type="radio" name="gender" id="male" value="1">
                     <label for="male">男性</label>
-                    <input type="radio" name="gender" id="female" value="女性">
+                    <input type="radio" name="gender" id="female" value="2">
                     <label for="female">女性</label>
                 </td>
             </tr>
             <tr>
                 <td>
-                    生年月日：<input type="date" name="birthday" id="birthday">
+                    生年月日：<input type="date" name="birthday" id="birthday" value="2000-09-26">
                 </td>
             </tr>
             <tr>
                 <td>
-                    住所：<input type="text" name="address" id="address">
+                    住所：<input type="text" name="address" id="address" value="大阪市">
                 </td>
             </tr>
             <tr>
                 <td>
-                    電話番号： <input type="tel" name="phone" id="phone">
+                    電話番号： <input type="tel" name="phone" id="phone" value="080">
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 個人用：<input type="email" name="email1" id="email1">
+                    E-mail 個人用：<input type="email" name="email" id="email" value="abc@outlook.com">
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 学校用：<input type="email" name="email2" id="email2">
+                    E-mail 学校用：<input type="email" name="gmail" id="gmail" value="abc@gmail.com">
                 </td>
             </tr>
             <tr>
                 <td>
-                    備考：<br><textarea name="remarks" id="remarks" cols="30" rows="3"></textarea>
+                    備考：<br><textarea name="note" id="note" cols="30" rows="3" value="test desu"></textarea>
                 </td>
             </tr>
         </table>
+        <input type="submit" value="新規登録">
     </form>
     </main>
     <footer>
+        <br>
         <p><a href="{{url_for('student_list.student_list',school=school)}}">生徒一覧へ</a></p>
+        
     </footer>
 
     <script src="../static/js/student_details.js"></script>
