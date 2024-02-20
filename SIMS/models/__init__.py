@@ -16,6 +16,8 @@ class BaseMixin(db.Model):
         data = cls(**kwargs)
         db.session.add(data)
         db.session.commit()
+        # IDを返す
+        return data.id
 
     # データを複数追加する
     @classmethod
