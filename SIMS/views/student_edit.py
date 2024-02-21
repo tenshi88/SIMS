@@ -31,7 +31,7 @@ def student_edit(id,school):
                         gmail=request.form.get('gmail'),
                         note=request.form.get('note'),
                                          )
-        return render_template("student_list.html",school=school)
+        return redirect("student_list.html",school=school)
     
     elif request.method == 'GET':
         return render_template('student_edit.html',\
