@@ -24,82 +24,86 @@
         {{ super() }}
 
 
-        <!-- <br><br>
-        <span><a href="{{student.next_id}}"><p>次へ</p></a></span>
-        <span><a href="{{student.prev_id}}"><p>前へ</p></a></span> -->
     </header>
     <main>
+    <form method="post">
         <table class="table table-striped">
             <tr>
                 <td>
-                    id:<input type="text" value="{{student.id}}">
+                    id:<input type="text" name="id" value="{{student.id}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    生徒名：<input type="text" value="{{student.name}}">
+                    生徒名：<input type="text" name="name" value="{{student.name}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    フリガナ：<input type="text" value="{{student.name_kana}}">
+                    フリガナ：<input type="text" name="name_kana" value="{{student.name_kana}}">
                 </td>
             </tr>
             <tr>
                 <td>
                     クラス：
-                    <select>
-                        {% for i in schools %}
-                        <option>{{i.name}}</option>
+                    <select name="class_name">
+                        {% for i in class_member %}
+                        <option  {% if student.class_name == i.name %} selected {% endif %}>{{i.name}}</option>
                         {% endfor %}
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>
-                    性別：<input type="text" value="{{student.gender}}">
+                <td>            
+                    性別：  <input type="radio" name="gender" id="male" value="1" {% if student.gender == "男"%} checked{%endif%}>
+                    <label for="male">男性</label>
+                    <input type="radio" name="gender" id="female" value="2" {% if student.gender == "女"%} checked{%endif%}>
+                    <label for="female">女性</label>
                 </td>
             </tr>
             <tr>
                 <td>
-                    生年月日：<input type="text" value="{{student.birthday}}">
+                    生年月日：<input type="text" name="birthday" value="{{student.birthday}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    住所：<input type="text" value="{{student.address}}">
+                    住所：<input type="text" name="address" value="{{student.address}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    電話番号：<input type="text" value="{{student.phone}}">
+                    電話番号：<input type="text" name="phone" value="{{student.phone}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 個人用：<input type="text" value="{{student.email}}">
+                    E-mail 個人用：<input type="text" name="email" value="{{student.email}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 学校用：<input type="text" value="{{student.gmail}}">
+                    E-mail 学校用：<input type="text" name="gmail" value="{{student.gmail}}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    備考：<input type="text" value="{{student.note}}">
+                    備考：<input type="text" name="note" value="{{student.note}}">
                 </td>
             </tr>
         </table>
-    </main>
-    <footer>
-        <p><a href="{{ url_for('student_list.student_list', school=school)}}">生徒一覧へ</a></p>
-        <p><a href="{{ url_for('student_list.student_list', school=school)}}">更新</a></p>
-
-        <p><a href="{{student_delete.delete}}">削除</a></p>
-
+     </main>
+     <footer>
+        <p><button type="submit">生徒一覧へ</a></p></button>
+        <p><button type="submit">更新</p></button>
+    </form>
+    <form method="post">
+            <input type="hidden" name="student_delete" value="delete"><p><button type="submit">削除</p></button>
+            <input type="hidden" name= "id" value="{{student.id}}">
+    </form>
         <script src="../static/js/student_edit.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 
 {% endblock %}

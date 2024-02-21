@@ -14,6 +14,9 @@
     <!-- 生徒一覧 -->
     <h2>生徒一覧</h2>
 
+    {% set gender = '男' %}
+    {% set gender = 1 if gender == '男' else 2 %}
+    {{gender}}
     <div id="student-list">
         {% for list in categorized_students if list.is_open %}
             {% if list.students|length > 0 %}
