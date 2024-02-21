@@ -43,23 +43,31 @@
             </tr>
             <tr>
                 <td>
-                    生徒名: <input type="text" name="name" id="name" value="山田">
+                    生徒名: <input type="text" name="name" id="name" value="山田" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    フリガナ: <input type="text" name="name_kana" id="name_kana" value="ヤマダ">
+                    フリガナ: <input type="text" name="name_kana" id="name_kana" value="ヤマダ" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    クラス： <input type="text" name="class_name" id="class_name" value="Aコース">
+                    <label for="class_name">クラス：</label>
+<select name="class_name" id="class_name" >
+  <option value="Aコース">Aコース</option>
+  <option value="Bコース">Bコース</option>
+  <option value="Cコース">Cコース</option>
+  <option value="Dコース">Dコース</option>
+  <option value="Eコース">Eコース</option>
+  <option value="Fコース">Fコース</option>  
+</select>
                 </td>
                 <!-- セレクトボックス、プルダウン、HTML実装する -->
             </tr>
             <tr>
                 <td>
-                    性別：  <input type="radio" name="gender" id="male" value="1">
+                    性別：  <input type="radio" name="gender" id="male" value="1" checked="checked">
                     <label for="male">男性</label>
                     <input type="radio" name="gender" id="female" value="2">
                     <label for="female">女性</label>
@@ -67,27 +75,27 @@
             </tr>
             <tr>
                 <td>
-                    生年月日：<input type="date" name="birthday" id="birthday" value="2000-09-26">
+                    生年月日：<input type="date" name="birthday" id="birthday" value="2000-09-26" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    住所：<input type="text" name="address" id="address" value="大阪市">
+                    住所：<input type="text" name="address" id="address" value="大阪市" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    電話番号： <input type="tel" name="phone" id="phone" value="080">
+                    電話番号： <input type="tel" name="phone" id="phone" value="080" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 個人用：<input type="email" name="email" id="email" value="abc@outlook.com">
+                    E-mail 個人用：<input type="email" name="email" id="email" value="abc@outlook.com" required>
                 </td>
             </tr>
             <tr>
                 <td>
-                    E-mail 学校用：<input type="email" name="gmail" id="gmail" value="abc@gmail.com">
+                    E-mail 学校用：<input type="email" name="gmail" id="gmail" value="abc@gmail.com" required>
                 </td>
             </tr>
             <tr>
@@ -104,7 +112,18 @@
         <p><a href="{{url_for('student_list.student_list',school=school)}}">生徒一覧へ</a></p>
         
     </footer>
-
+    <!-- <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var inputs = [...document.querySelectorAll('input[type="text"]'),...document.querySelectorAll('input[type="radio"]')];
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value === '') {
+                    event.preventDefault();
+                    alert('すべての項目を記入してください。');
+                    return;
+                }
+            }
+        });
+    </script> -->
     <script src="../static/js/student_details.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
